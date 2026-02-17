@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Pink Theme</title>
+    <link rel="stylesheet" href="befo.css">
+</head>
+
+<body>
+
+    <header>
+        <h1 style="color: var(--primary-pink)">Westlife</h1>
+        <nav>
+            <a href="#">Home</a> | <a href="#">About</a> | <a href="#">contact</a>
+        </nav>
+    </header>
+
+    <main style="padding: 2rem;">
+        <h2>Welcome to the Dark Side</h2>
+        <p style="color: var(--text-muted)">This site uses a centralized CSS root for easy theming.</p>
+        <button>Get Started</button>
+        <!-- Add this AFTER Special Instructions section and BEFORE the Order Summary section -->
+        <!-- WhatsApp Confirmation Section -->
+        <div class="form-group">
+            <label>WhatsApp Updates <span class="required">*</span></label>
+            <div class="whatsapp-options">
+                ` <div class="checkbox-option">
+                    <input type="checkbox" id="whatsapp-confirm" name="whatsapp" value="confirm" checked required>
+                    <label for="whatsapp-confirm">
+                        <i class="fab fa-whatsapp"></i> Send order confirmation to my WhatsApp
+                        <small class="option-note">(Recommended - Get instant order summary)</small>
+                    </label>
+                </div>
+                <div class="checkbox-option">
+                    <input type="checkbox" id="whatsapp-updates" name="whatsapp-updates" value="updates" checked>
+                    <label for="whatsapp-updates">
+                        <i class="fab fa-whatsapp"></i> Receive cake progress updates via WhatsApp
+                        <small class="option-note">(We'll send photos when we start and finish your cake)</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="info-box whatsapp-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Why WhatsApp?</strong> Most Kenyan customers prefer WhatsApp for order confirmations.
+                You'll get your order details instantly and can easily refer back to them.
+            </div>
+        </div>
+
+        <!-- Terms & Conditions Section -->
+        <div class="form-group terms-section">
+            <div class="terms-header">
+                <i class="fas fa-file-contract"></i>
+                <strong>FINAL CONFIRMATION</strong>
+            </div>
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms-agree" required>
+                <label for="terms-agree">I confirm that all cake details are correct and agree to the total
+                    price</label>
+            </div>
+            <div class="terms-checkbox">
+                <input type="checkbox" id="deposit-agree" required>
+                <label for="deposit-agree">I understand a 50% deposit may be required for orders over KSh 5,000</label>
+            </div>
+        </div>
+        <button onclick="window.location.href='order.html'">Order Online</button>
+    </main>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-widget">
+        <a href="https://wa.me/254712345678?text=Hi%20Sweet%20Treats%20Bakery%2C%20I%20have%20a%20question%20about%20cake%20orders"
+            class="whatsapp-float" target="_blank" id="whatsappHelp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-text">Need Help? Chat on WhatsApp</span>
+            <span class="whatsapp-notification" id="whatsappNotification">💬</span>
+        </a>
+    </div>
+
+</body>
+
+</html>
