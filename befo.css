@@ -1,0 +1,66 @@
+:root {
+    /* Primary Theme Colors */
+    --primary-pink: #d81b60;
+    /* Vibrant Dark Pink */
+    --deep-pink: #880e4f;
+    /* Deeper Wine/Pink */
+    --light-pink: #f48fb1;
+    /* Soft Pink for accents */
+
+    /* Background & Surface */
+    --bg-color: #121212;
+    /* Deep Dark Grey/Black */
+    --surface-color: #1e1e1e;
+    /* Slightly lighter for cards/nav */
+
+    /* Text Colors */
+    --text-main: #ffffff;
+    --text-muted: #b0b0b0;
+
+    /* Utilities */
+    --border-radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+/* Global Reset */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Example usage of variables */
+header {
+    background-color: var(--surface-color);
+    border-bottom: 2px solid var(--primary-pink);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background-color: var(--primary-pink);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+button:hover {
+    background-color: var(--deep-pink);
+    transform: translateY(-2px);
+}
+
+a {
+    color: var(--light-pink);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

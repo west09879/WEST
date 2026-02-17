@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeFo Bakers Bakery - Order Your Cake</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS remains exactly the same - it's already clean */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #D4A76A;
+            --secondary-color: #8B4513;
+            --accent-color: #E91E63;
+            --light-color: #FFF9F0;
+            --dark-color: #5D4037;
+            --text-color: #333;
+            --text-light: #777;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 10px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+            padding-top: 80px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: var(--secondary-color);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 14px;
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        /* Kenya Flag */
+        .kenya-flag {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .kenya-flag span {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin: 0 2px;
+            border-radius: 50%;
+        }
+
+        .kenya-flag .black {
+            background-color: black;
+        }
+
+        .kenya-flag .red {
+            background-color: #BB0000;
+        }
+
+        .kenya-flag .green {
+            background-color: #006600;
+        }
+
+        .kenya-flag .white {
+            background-color: white;
+            border: 1px solid #ddd;
+        }
+
+        /* Auto-fill Banner */
+        .auto-fill-banner {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.5s ease;
+        }
+
+        .auto-fill-banner.visible {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auto-fill-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .auto-fill-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        .clear-selection-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .clear-selection-btn:hover {
+            background: white;
+            color: #4CAF50;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1089&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            opacity: 0.9;
+        }
+
+        /* Main Content Layout */
+        .order-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 992px) {
+            .order-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Order Form Styles */
+        .order-form-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .section-title i {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .section-title h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .form-group:last-of-type {
+            border-bottom: none;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(212, 167, 106, 0.2);
+        }
+
+        .form-control.disabled {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            margin-right: 8px;
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #f8f8f8;
+            border-radius: 50px;
+            padding: 5px;
+            width: fit-content;
+        }
+
+        .toggle-option {
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .toggle-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tier-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .tier-details.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tier-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tier-select {
+            flex: 1;
+        }
+
+        /* Image Upload Section */
+        .image-upload-container {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        .image-upload-container:hover {
+            border-color: var(--primary-color);
+            background-color: #fffbf5;
+        }
+
+        .image-upload-container.dragover {
+            border-color: var(--accent-color);
+            background-color: #fff0f5;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .upload-text strong {
+            color: var(--secondary-color);
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        #customImageInput {
+            display: none;
+        }
+
+        .uploaded-image-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+        }
+
+        .remove-image-btn {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .remove-image-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .file-types {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        /* M-Pesa Payment Section */
+        .mpesa-section {
+            background-color: #f0f9f0;
+            border-left: 4px solid #00a900;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .mpesa-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #00a900;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .mpesa-logo i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .payment-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .payment-detail {
+            flex: 1;
+            min-width: 200px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .payment-detail h4 {
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .payment-detail p {
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .payment-detail.code {
+            background-color: #fff8e1;
+            border-color: #ffd54f;
+        }
+
+        .transaction-code-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .transaction-code-input input {
+            flex: 1;
+        }
+
+        /* Urgency Levels Styling */
+        .urgency-levels {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .urgency-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .urgency-option:hover {
+            border-color: var(--primary-color);
+            background-color: #fffbf5;
+        }
+
+        .urgency-option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .urgency-option label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .urgency-option i {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+        }
+
+        #urgency-standard:checked~label {
+            color: var(--secondary-color);
+        }
+
+        #urgency-express:checked~label {
+            color: #ff9800;
+        }
+
+        #urgency-same-day:checked~label {
+            color: #f44336;
+        }
+
+        .urgency-warning {
+            background-color: #fff8e1;
+            border-left-color: #ffc107;
+        }
+
+        /* Topper Options Styling */
+        .topper-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .topper-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .topper-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .topper-option:hover {
+            border-color: var(--primary-color);
+            background-color: #fffbf5;
+        }
+
+        .topper-option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .topper-option label {
+            cursor: pointer;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .topper-option i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        /* WhatsApp Options Styling */
+        .whatsapp-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .whatsapp-options .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+        }
+
+        .whatsapp-options .checkbox-option:hover {
+            border-color: #25D366;
+            background-color: #f0fff4;
+        }
+
+        .whatsapp-options .checkbox-option input[type="checkbox"] {
+            margin-top: 3px;
+            margin-right: 12px;
+        }
+
+        .whatsapp-options .checkbox-option label {
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .whatsapp-options .checkbox-option i {
+            color: #25D366;
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .whatsapp-options .option-note {
+            display: block;
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        .whatsapp-info {
+            background-color: #e8f5e9;
+            border-left-color: #25D366;
+            margin-top: 15px;
+        }
+
+        .whatsapp-info i {
+            color: #25D366;
+        }
+
+        /* Terms & Conditions */
+        .terms-section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .terms-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .terms-header i {
+            background-color: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 6px;
+        }
+
+        .terms-checkbox:last-child {
+            margin-bottom: 0;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+        }
+
+        .terms-checkbox label {
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Order Summary Styles */
+        .order-summary-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cake-preview {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cake-image {
+            width: 100%;
+            height: 250px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cake-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .uploaded-design-preview {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: var(--secondary-color);
+            display: none;
+        }
+
+        .cake-details {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .detail-label {
+            color: var(--text-light);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--secondary-color);
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+        .price-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .total-label {
+            color: var(--dark-color);
+        }
+
+        .total-value {
+            color: var(--accent-color);
+        }
+
+        /* Order Button */
+        .order-button {
+            display: block;
+            width: 100%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-button:hover {
+            background-color: #d81b60;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(233, 30, 99, 0.3);
+        }
+
+        /* Info Box */
+        .info-box {
+            background-color: #e8f4fc;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .info-box i {
+            color: #2196f3;
+            margin-right: 8px;
+        }
+
+        /* WhatsApp Floating Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+        }
+
+        .whatsapp-float {
+            display: flex;
+            align-items: center;
+            background-color: #25D366;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-float i {
+            font-size: 26px;
+            margin-right: 12px;
+        }
+
+        .whatsapp-text {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .whatsapp-notification {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #ff5252;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .footer-column p,
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Required field indicator */
+        .required {
+            color: #f44336;
+            margin-left: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .contact-info {
+                align-items: center;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .order-form-section,
+            .order-summary-section {
+                padding: 20px;
+            }
+
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .image-upload-container {
+                padding: 20px 15px;
+            }
+
+            .payment-info {
+                flex-direction: column;
+            }
+
+            .payment-detail {
+                min-width: 100%;
+            }
+
+            .tier-row {
+                flex-direction: column;
+            }
+
+            .whatsapp-float {
+                padding: 16px;
+            }
+
+            .whatsapp-text {
+                display: none;
+            }
+
+            .whatsapp-float i {
+                margin-right: 0;
+                font-size: 30px;
+            }
+
+            .whatsapp-widget {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .auto-fill-banner {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .auto-fill-info {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 50px 0;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title h3 {
+                font-size: 1.3rem;
+            }
+
+            .form-control {
+                padding: 10px 12px;
+            }
+
+            .toggle-switch {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toggle-option {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-birthday-cake"></i>
+                <h1>BeFo <span>Bakers</span> Bakery</h1>
+                <div class="kenya-flag">
+                    <span class="black"></span>
+                    <span class="red"></span>
+                    <span class="green"></span>
+                    <span class="white"></span>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-phone"></i> Call us: +254 727205660</p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Auto-fill Banner -->
+    <div class="container">
+        <div class="auto-fill-banner" id="autoFillBanner">
+            <div class="auto-fill-info">
+                <img id="bannerCakeImage" src="" alt="">
+                <div>
+                    <h4 style="margin-bottom: 5px;"><i class="fas fa-magic"></i> Smart Fill Active!</h4>
+                    <p style="font-size: 14px; opacity: 0.9;">Your selection from the gallery has been auto-filled
+                        below. You can customize anything.</p>
+                    <p style="font-size: 12px; margin-top: 5px;" id="bannerCakeTitle"></p>
+                </div>
+            </div>
+            <button class="clear-selection-btn" id="clearSelectionBtn">
+                <i class="fas fa-times"></i> Clear Selection
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Custom Cakes for Every Celebration</h2>
+            <p>Order delicious, freshly baked cakes for birthdays, weddings, anniversaries and all your special moments.
+                Delivery available across Kenya.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="order-container">
+            <!-- Order Form -->
+            <section class="order-form-section">
+                <div class="section-title">
+                    <i class="fas fa-edit"></i>
+                    <h3>Customize Your Cake</h3>
+                </div>
+
+                <form id="cakeOrderForm">
+                    <!-- Customer Details -->
+                    <div class="form-group">
+                        <label for="customerName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="customerName" class="form-control" placeholder="Enter your full name"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="customerPhone" class="form-control" placeholder="e.g. 0712 345 678"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerEmail">Email Address</label>
+                        <input type="email" id="customerEmail" class="form-control" placeholder="Enter your email">
+                    </div>
+
+                    <!-- Cake Type & Size -->
+                    <div class="form-group">
+                        <label for="cakeType">Cake Type <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="cakeType" class="form-control" required>
+                                <option value="">Select cake type</option>
+                                <option value="vanilla">Vanilla Sponge</option>
+                                <option value="chocolate">Chocolate Fudge</option>
+                                <option value="red-velvet">Red Velvet</option>
+                                <option value="carrot">Carrot Cake</option>
+                                <option value="fruit">Fruit Cake</option>
+                                <option value="cheesecake">Cheesecake</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cake Fillings -->
+                    <div class="form-group">
+                        <label for="cakeFilling">Cake Filling <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="cakeFilling" class="form-control" required>
+                                <option value="">Select filling</option>
+                                <option value="buttercream">Vanilla Buttercream</option>
+                                <option value="chocolate-ganache">Chocolate Ganache</option>
+                                <option value="salted-caramel">Salted Caramel</option>
+                                <option value="strawberry-jam">Strawberry Jam</option>
+                                <option value="lemon-curd">Lemon Curd</option>
+                                <option value="mixed-berry">Mixed Berry Compote</option>
+                                <option value="cream-cheese">Cream Cheese Frosting</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tier Selection -->
+                    <div class="form-group">
+                        <label>Cake Style <span class="required">*</span></label>
+                        <div class="toggle-switch" id="tierToggle">
+                            <div class="toggle-option active" data-tier="single">
+                                Standard Single Tier
+                            </div>
+                            <div class="toggle-option" data-tier="multi">
+                                Multi-Tier Celebration Cake
+                            </div>
+                        </div>
+
+                        <!-- Single Tier Options -->
+                        <div id="singleTierDetails" class="tier-details active">
+                            <label for="cakeSize">Cake Size <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="size-small" name="cakeSize" value="small" data-price="1500"
+                                        required>
+                                    <label for="size-small">Small (Serves 8-10) - KSh 1,500</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="size-medium" name="cakeSize" value="medium"
+                                        data-price="2800">
+                                    <label for="size-medium">Medium (Serves 15-20) - KSh 2,800</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="size-large" name="cakeSize" value="large" data-price="4200">
+                                    <label for="size-large">Large (Serves 25-30) - KSh 4,200</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multi-Tier Options -->
+                        <div id="multiTierDetails" class="tier-details">
+                            <p style="margin-bottom: 15px; color: var(--text-light);">Select tiers for your celebration
+                                cake:</p>
+                            <div class="tier-row">
+                                <div class="tier-select">
+                                    <label for="tier1">Bottom Tier</label>
+                                    <select id="tier1" class="form-control tier-selector" data-tier="1">
+                                        <option value="none">No tier</option>
+                                        <option value="6-inch">6-inch (Serves 10-12) - KSh 2,500</option>
+                                        <option value="8-inch">8-inch (Serves 20-25) - KSh 3,800</option>
+                                        <option value="10-inch">10-inch (Serves 30-40) - KSh 5,500</option>
+                                    </select>
+                                </div>
+                                <div class="tier-select">
+                                    <label for="tier2">Middle Tier</label>
+                                    <select id="tier2" class="form-control tier-selector" data-tier="2">
+                                        <option value="none">No tier</option>
+                                        <option value="6-inch">6-inch (Serves 10-12) - KSh 2,500</option>
+                                        <option value="8-inch">8-inch (Serves 20-25) - KSh 3,800</option>
+                                        <option value="10-inch">10-inch (Serves 30-40) - KSh 5,500</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="tier-row">
+                                <div class="tier-select">
+                                    <label for="tier3">Top Tier</label>
+                                    <select id="tier3" class="form-control tier-selector" data-tier="3">
+                                        <option value="none">No tier</option>
+                                        <option value="4-inch">4-inch (Serves 5-8) - KSh 1,800</option>
+                                        <option value="6-inch">6-inch (Serves 10-12) - KSh 2,500</option>
+                                        <option value="8-inch">8-inch (Serves 20-25) - KSh 3,800</option>
+                                    </select>
+                                </div>
+                                <div class="tier-select">
+                                    <label for="tier4">Additional Tier</label>
+                                    <select id="tier4" class="form-control tier-selector" data-tier="4">
+                                        <option value="none">No tier</option>
+                                        <option value="4-inch">4-inch (Serves 5-8) - KSh 1,800</option>
+                                        <option value="6-inch">6-inch (Serves 10-12) - KSh 2,500</option>
+                                        <option value="8-inch">8-inch (Serves 20-25) - KSh 3,800</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <i class="fas fa-lightbulb"></i>
+                                <strong>Pro Tip:</strong> Multi-tier cakes are perfect for weddings, large birthdays,
+                                and corporate events. Minimum 48 hours notice required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Icing Type -->
+                    <div class="form-group">
+                        <label for="icingType">Icing/Frosting <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="icing-buttercream" name="icingType" value="buttercream"
+                                    required>
+                                <label for="icing-buttercream">Buttercream</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="icing-fondant" name="icingType" value="fondant">
+                                <label for="icing-fondant">Fondant</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="icing-ganache" name="icingType" value="ganache">
+                                <label for="icing-ganache">Chocolate Ganache</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="icing-cream" name="icingType" value="cream">
+                                <label for="icing-cream">Fresh Cream</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dietary Preferences -->
+                    <div class="form-group">
+                        <label>Dietary Preferences</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="diet-eggless" name="dietary" value="eggless">
+                                <label for="diet-eggless">Eggless (+KSh 500)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="diet-glutenfree" name="dietary" value="glutenfree">
+                                <label for="diet-glutenfree">Gluten-Free (+KSh 800)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="diet-sugarfree" name="dietary" value="sugarfree">
+                                <label for="diet-sugarfree">Sugar-Free (+KSh 600)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="diet-vegan" name="dietary" value="vegan">
+                                <label for="diet-vegan">Vegan (+KSh 700)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Features -->
+                    <div class="form-group">
+                        <label>Additional Features</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="feature-flowers" name="features" value="flowers">
+                                <label for="feature-flowers">Sugar Flowers (+KSh 500)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="feature-figurines" name="features" value="figurines">
+                                <label for="feature-figurines">Custom Figurines (+KSh 800)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="feature-edible-image" name="features" value="edible-image">
+                                <label for="feature-edible-image">Edible Image (+KSh 400)</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="feature-sparklers" name="features" value="sparklers">
+                                <label for="feature-sparklers">Sparklers (+KSh 300)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cake Topper Customization -->
+                    <div class="form-group">
+                        <label>Cake Topper Options</label>
+                        <div class="topper-options">
+                            <div class="topper-option">
+                                <input type="radio" id="topper-none" name="topper" value="none" checked>
+                                <label for="topper-none">No Topper (Standard)</label>
+                            </div>
+                            <div class="topper-option">
+                                <input type="radio" id="topper-standard" name="topper" value="standard">
+                                <label for="topper-standard">
+                                    <i class="fas fa-star"></i> Standard "Happy Birthday" - KSh 300
+                                </label>
+                            </div>
+                            <div class="topper-option">
+                                <input type="radio" id="topper-custom-name" name="topper" value="custom-name">
+                                <label for="topper-custom-name">
+                                    <i class="fas fa-font"></i> Custom Name Topper - KSh 500
+                                </label>
+                            </div>
+                            <div class="topper-option">
+                                <input type="radio" id="topper-figure" name="topper" value="figure">
+                                <label for="topper-figure">
+                                    <i class="fas fa-user-friends"></i> Bride & Groom/Figure Topper - KSh 800
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Custom Name Field -->
+                        <div id="customNameField"
+                            style="display: none; margin-top: 15px; padding: 15px; background-color: #f9f9f9; border-radius: 8px;">
+                            <label for="customName" style="display: block; margin-bottom: 8px;">
+                                <i class="fas fa-edit"></i> Enter Custom Text for Topper
+                            </label>
+                            <input type="text" id="customName" class="form-control"
+                                placeholder="e.g., Happy Birthday Mary, Congratulations John & Jane, etc.">
+                            <small style="color: var(--text-light); display: block; margin-top: 5px;">
+                                Maximum 30 characters. We'll match the font to your cake design.
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Custom Design Image Upload -->
+                    <div class="form-group">
+                        <label>Upload "Inspo" Cake Design</label>
+                        <p style="font-size: 14px; color: var(--text-light); margin-bottom: 8px;">
+                            Found a cake design on Pinterest or Instagram? Upload it here so we can replicate it
+                            perfectly!
+                        </p>
+
+                        <div class="image-upload-container" id="imageUploadContainer">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                <strong>Click to upload</strong> or drag and drop
+                            </div>
+                            <p class="file-types">JPG, PNG, GIF, or PDF (Max size: 5MB)</p>
+                            <button type="button" class="upload-btn" id="uploadButton">
+                                <i class="fas fa-file-image"></i> Upload "Inspo" Image
+                            </button>
+                            <input type="file" id="customImageInput" accept=".jpg,.jpeg,.png,.gif,.pdf,.webp">
+                        </div>
+
+                        <div class="uploaded-image-container" id="uploadedImageContainer">
+                            <img src="" alt="Uploaded design" class="uploaded-image" id="uploadedImage">
+                            <p><strong>Uploaded Image:</strong> <span id="uploadedFileName"></span></p>
+                            <button type="button" class="remove-image-btn" id="removeImageBtn">
+                                <i class="fas fa-trash"></i> Remove Image
+                            </button>
+                        </div>
+
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Kenyan Bakery Tip:</strong> Most customers send us screenshots from Pinterest or
+                            Instagram. This helps us understand exactly what you want!
+                        </div>
+                    </div>
+
+                    <!-- M-Pesa Payment Section -->
+                    <div class="form-group">
+                        <label>M-Pesa Payment Details</label>
+                        <div class="mpesa-section">
+                            <div class="mpesa-logo">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>M-PESA PAYMENT</span>
+                            </div>
+
+                            <div class="payment-info">
+                                <div class="payment-detail">
+                                    <h4>Paybill Number</h4>
+                                    <p>247247</p>
+                                </div>
+                                <div class="payment-detail">
+                                    <h4>Account Number</h4>
+                                    <p>BeFo Bakers Bakery</p>
+                                </div>
+                                <div class="payment-detail code">
+                                    <h4>Transaction Code</h4>
+                                    <p>Enter your M-Pesa code below</p>
+                                    <div class="transaction-code-input">
+                                        <input type="text" id="mpesaCode" class="form-control"
+                                            placeholder="e.g. RF58H9T3P2" maxlength="10">
+                                        <button type="button" id="verifyCode" class="upload-btn"
+                                            style="padding: 8px 15px; font-size: 14px;">
+                                            Verify
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <i class="fas fa-shield-alt"></i>
+                                <strong>Security Note:</strong> We'll verify your payment instantly using this code. No
+                                need to send screenshots!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Date with Restrictions -->
+                    <div class="form-group">
+                        <label for="deliveryDate">Preferred Delivery/Pickup Date <span class="required">*</span></label>
+                        <input type="date" id="deliveryDate" class="form-control" required>
+                        <div class="info-box">
+                            <i class="fas fa-calendar-alt"></i>
+                            <strong>Notice:</strong> Complex cakes require 48 hours notice. Next-day orders available
+                            for simple designs only.
+                        </div>
+                    </div>
+
+                    <!-- Urgent Order Surcharge -->
+                    <div class="form-group">
+                        <label>Order Urgency <span class="required">*</span></label>
+                        <div class="urgency-levels">
+                            <div class="urgency-option">
+                                <input type="radio" id="urgency-standard" name="urgency" value="standard" checked
+                                    required>
+                                <label for="urgency-standard">
+                                    <i class="fas fa-clock"></i> Standard (48+ hours notice) - No extra charge
+                                </label>
+                            </div>
+                            <div class="urgency-option">
+                                <input type="radio" id="urgency-express" name="urgency" value="express">
+                                <label for="urgency-express">
+                                    <i class="fas fa-running"></i> Express (24-48 hours notice) +20% surcharge
+                                </label>
+                            </div>
+                            <div class="urgency-option">
+                                <input type="radio" id="urgency-same-day" name="urgency" value="same-day">
+                                <label for="urgency-same-day">
+                                    <i class="fas fa-bolt"></i> Same Day (Limited availability) +50% surcharge
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="info-box urgency-warning" id="urgencyWarning"
+                            style="display: none; margin-top: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="warningText"></span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address (if applicable)</label>
+                        <textarea id="deliveryAddress" class="form-control textarea"
+                            placeholder="Enter your full delivery address including town, estate, and building"></textarea>
+                        <div class="info-box" style="margin-top: 10px;">
+                            <i class="fas fa-truck"></i>
+                            <strong>Delivery Areas:</strong> Nairobi CBD, Westlands, Karen, Langata, Kilimani, and
+                            surrounding areas. Delivery fee: KSh 300-800 depending on location.
+                        </div>
+                    </div>
+
+                    <!-- Special Instructions -->
+                    <div class="form-group">
+                        <label for="specialInstructions">Special Instructions</label>
+                        <textarea id="specialInstructions" class="form-control textarea"
+                            placeholder="Any specific design requests, allergies, delivery instructions, or other notes"></textarea>
+                    </div>
+
+                    <!-- WhatsApp Confirmation Section -->
+                    <div class="form-group">
+                        <label>WhatsApp Updates <span class="required">*</span></label>
+                        <div class="whatsapp-options">
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="whatsapp-confirm" name="whatsapp" value="confirm" checked
+                                    required>
+                                <label for="whatsapp-confirm">
+                                    <i class="fab fa-whatsapp"></i> Send order confirmation to my WhatsApp
+                                    <small class="option-note">(Recommended - Get instant order summary)</small>
+                                </label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" id="whatsapp-updates" name="whatsapp-updates" value="updates"
+                                    checked>
+                                <label for="whatsapp-updates">
+                                    <i class="fab fa-whatsapp"></i> Receive cake progress updates via WhatsApp
+                                    <small class="option-note">(We'll send photos when we start and finish your
+                                        cake)</small>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="info-box whatsapp-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Why WhatsApp?</strong> Most Kenyan customers prefer WhatsApp for order
+                            confirmations.
+                            You'll get your order details instantly and can easily refer back to them.
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions Section -->
+                    <div class="form-group terms-section">
+                        <div class="terms-header">
+                            <i class="fas fa-file-contract"></i>
+                            <strong>FINAL CONFIRMATION</strong>
+                        </div>
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="terms-agree" required>
+                            <label for="terms-agree">I confirm that all cake details are correct and agree to the total
+                                price</label>
+                        </div>
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="deposit-agree" required>
+                            <label for="deposit-agree">I understand a 50% deposit may be required for orders over KSh
+                                5,000</label>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Order Summary -->
+            <section class="order-summary-section">
+                <div class="section-title">
+                    <i class="fas fa-receipt"></i>
+                    <h3>Order Summary</h3>
+                </div>
+
+                <div class="cake-preview">
+                    <div class="cake-image" id="cakePreview">
+                        <i class="fas fa-birthday-cake" style="font-size: 80px; color: #f0d9b5;"></i>
+                        <div class="uploaded-design-preview" id="designPreview">
+                            <i class="fas fa-image"></i> Gallery Selection
+                        </div>
+                    </div>
+                    <p id="cakeSelectionText">Your customized cake preview</p>
+                </div>
+
+                <div class="cake-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Cake Type</span>
+                        <span class="detail-value" id="summaryCakeType">Not selected</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Filling</span>
+                        <span class="detail-value" id="summaryFilling">Not selected</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Cake Style</span>
+                        <span class="detail-value" id="summaryCakeStyle">Single Tier</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Size/Tiers</span>
+                        <span class="detail-value" id="summarySize">Not selected</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Icing</span>
+                        <span class="detail-value" id="summaryIcing">Not selected</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Dietary</span>
+                        <span class="detail-value" id="summaryDietary">None</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Features</span>
+                        <span class="detail-value" id="summaryFeatures">None</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Topper</span>
+                        <span class="detail-value" id="summaryTopper">No topper</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Urgency</span>
+                        <span class="detail-value" id="summaryUrgency">Standard (48+ hours)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Gallery Selection</span>
+                        <span class="detail-value" id="summaryGallerySelection">No</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">M-Pesa Code</span>
+                        <span class="detail-value" id="summaryMpesaCode">Not provided</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Delivery Date</span>
+                        <span class="detail-value" id="summaryDate">Not selected</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Customer Name</span>
+                        <span class="detail-value" id="summaryName">Not provided</span>
+                    </div>
+                </div>
+
+                <div class="price-total">
+                    <span class="total-label">Total Price:</span>
+                    <span class="total-value" id="totalPrice">KSh 0</span>
+                </div>
+
+                <button type="submit" form="cakeOrderForm" class="order-button">
+                    <i class="fas fa-shopping-cart"></i> Place Order & Send to WhatsApp
+                </button>
+
+                <p style="text-align: center; margin-top: 15px; font-size: 14px; color: var(--text-light);">
+                    <i class="fas fa-info-circle"></i> You'll receive a confirmation call within 2 hours
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>BeFo Bakers Bakery</h4>
+                    <p>Freshly baked cakes and pastries made with love in Kenya since 2010. We specialize in custom
+                        cakes for all occasions.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Bakery Street, Nairobi</p>
+                    <p><i class="fas fa-phone"></i> +254 727205660</p>
+                    <p><i class="fas fa-envelope"></i> orders@BeFoBakers.co.ke</p>
+                    <p><i class="fas fa-clock"></i> Mon-Sat: 8am-7pm, Sun: 9am-5pm</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="order.html">Order Cake</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Terms & Conditions</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 BeFo Bakers Bakery. All rights reserved. Proudly Kenyan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-widget">
+        <a href="https://wa.me/254727205660?text=Hi%20BeFo%20Bakers%20Bakery%2C%20I%20have%20a%20question%20about%20cake%20orders"
+            class="whatsapp-float" target="_blank" id="whatsappHelp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-text">Need Help? Chat on WhatsApp</span>
+            <span class="whatsapp-notification" id="whatsappNotification">💬</span>
+        </a>
+    </div>
+
+    <script>
+        // ============================================
+        // GLOBAL VARIABLES AND CONFIGURATION
+        // ============================================
+        const config = {
+            prices: {
+                size: {
+                    small: 1500,
+                    medium: 2800,
+                    large: 4200
+                },
+                tiers: {
+                    '4-inch': 1800,
+                    '6-inch': 2500,
+                    '8-inch': 3800,
+                    '10-inch': 5500
+                },
+                features: {
+                    flowers: 500,
+                    figurines: 800,
+                    'edible-image': 400,
+                    sparklers: 300
+                },
+                dietary: {
+                    eggless: 500,
+                    glutenfree: 800,
+                    sugarfree: 600,
+                    vegan: 700
+                },
+                topper: {
+                    none: 0,
+                    standard: 300,
+                    'custom-name': 500,
+                    figure: 800
+                },
+                urgency: {
+                    standard: 0,
+                    express: 0.20,
+                    'same-day': 0.50
+                }
+            },
+
+            cakeImages: {
+                vanilla: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
+                chocolate: 'https://images.unsplash.com/photo-1565806029259-e72c030c6e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
+                'red-velvet': 'https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
+                carrot: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
+                fruit: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80',
+                cheesecake: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80'
+            },
+
+            whatsappConfig: {
+                bakeryNumber: '254727205660',
+                businessName: 'BeFo Bakers Bakery',
+                location: '123 Bakery Street, Nairobi'
+            }
+        };
+
+        // State variables
+        const state = {
+            hasCustomDesign: false,
+            uploadedImageUrl: null,
+            isMultiTier: false,
+            mpesaCodeVerified: false,
+            orderId: '',
+            baseCakePrice: 0,
+            fromGallery: false
+        };
+
+        // DOM Elements
+        const elements = {
+            // Form elements
+            form: document.getElementById('cakeOrderForm'),
+            cakeType: document.getElementById('cakeType'),
+            cakeFilling: document.getElementById('cakeFilling'),
+            cakeSize: document.querySelectorAll('input[name="cakeSize"]'),
+            icingType: document.querySelectorAll('input[name="icingType"]'),
+            features: document.querySelectorAll('input[name="features"]'),
+            dietary: document.querySelectorAll('input[name="dietary"]'),
+            urgency: document.querySelectorAll('input[name="urgency"]'),
+            topper: document.querySelectorAll('input[name="topper"]'),
+            deliveryDate: document.getElementById('deliveryDate'),
+            customerName: document.getElementById('customerName'),
+            customerPhone: document.getElementById('customerPhone'),
+            customImageInput: document.getElementById('customImageInput'),
+            mpesaCode: document.getElementById('mpesaCode'),
+            customName: document.getElementById('customName'),
+            whatsappConfirm: document.getElementById('whatsapp-confirm'),
+            whatsappUpdates: document.getElementById('whatsapp-updates'),
+
+            // Summary elements
+            summaryCakeType: document.getElementById('summaryCakeType'),
+            summaryFilling: document.getElementById('summaryFilling'),
+            summaryCakeStyle: document.getElementById('summaryCakeStyle'),
+            summarySize: document.getElementById('summarySize'),
+            summaryIcing: document.getElementById('summaryIcing'),
+            summaryDietary: document.getElementById('summaryDietary'),
+            summaryFeatures: document.getElementById('summaryFeatures'),
+            summaryUrgency: document.getElementById('summaryUrgency'),
+            summaryTopper: document.getElementById('summaryTopper'),
+            summaryGallerySelection: document.getElementById('summaryGallerySelection'),
+            summaryMpesaCode: document.getElementById('summaryMpesaCode'),
+            summaryDate: document.getElementById('summaryDate'),
+            summaryName: document.getElementById('summaryName'),
+            totalPrice: document.getElementById('totalPrice'),
+
+            // Other elements
+            cakePreview: document.getElementById('cakePreview'),
+            designPreview: document.getElementById('designPreview'),
+            tierToggle: document.getElementById('tierToggle'),
+            singleTierDetails: document.getElementById('singleTierDetails'),
+            multiTierDetails: document.getElementById('multiTierDetails'),
+            tierSelectors: document.querySelectorAll('.tier-selector'),
+            imageUploadContainer: document.getElementById('imageUploadContainer'),
+            uploadButton: document.getElementById('uploadButton'),
+            uploadedImageContainer: document.getElementById('uploadedImageContainer'),
+            uploadedImage: document.getElementById('uploadedImage'),
+            uploadedFileName: document.getElementById('uploadedFileName'),
+            removeImageBtn: document.getElementById('removeImageBtn'),
+            verifyCodeBtn: document.getElementById('verifyCode'),
+            whatsappHelpBtn: document.getElementById('whatsappHelp'),
+            whatsappNotification: document.getElementById('whatsappNotification'),
+            autoFillBanner: document.getElementById('autoFillBanner'),
+            clearSelectionBtn: document.getElementById('clearSelectionBtn'),
+            bannerCakeImage: document.getElementById('bannerCakeImage'),
+            bannerCakeTitle: document.getElementById('bannerCakeTitle'),
+            cakeSelectionText: document.getElementById('cakeSelectionText'),
+            customNameField: document.getElementById('customNameField')
+        };
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeDatePicker();
+            initializeAutoFill();
+            initializeEventListeners();
+            updateOrderSummary();
+
+            showWelcomeMessage();
+        });
+
+        function initializeDatePicker() {
+            const today = new Date();
+            const minDate = new Date(today);
+            minDate.setDate(today.getDate() + 2);
+            const maxDate = new Date(today);
+            maxDate.setMonth(today.getMonth() + 3);
+
+            elements.deliveryDate.min = minDate.toISOString().split("T")[0];
+            elements.deliveryDate.max = maxDate.toISOString().split("T")[0];
+        }
+
+        function initializeAutoFill() {
+            const savedOrder = localStorage.getItem('selectedCakeOrder');
+
+            if (savedOrder) {
+                try {
+                    const orderData = JSON.parse(savedOrder);
+                    const cake = orderData.cake;
+
+                    // Show banner
+                    elements.autoFillBanner.classList.add('visible');
+                    elements.bannerCakeImage.src = cake.image;
+                    elements.bannerCakeTitle.textContent = cake.title;
+
+                    // Update preview
+                    elements.cakePreview.innerHTML = `<img src="${cake.image}" alt="${cake.title}" style="width:100%;height:100%;object-fit:cover;">`;
+                    elements.designPreview.style.display = 'block';
+                    elements.cakeSelectionText.innerHTML = `<strong>${cake.title}</strong>`;
+
+                    // Set gallery flag
+                    state.fromGallery = true;
+                    elements.summaryGallerySelection.textContent = `Yes (${cake.title})`;
+
+                    // Auto-fill form if data exists
+                    if (cake.orderData) {
+                        autoFillForm(cake.orderData);
+                    }
+
+                } catch (e) {
+                    console.error('Error loading saved cake:', e);
+                }
+            }
+        }
+
+        function autoFillForm(orderData) {
+            // Fill cake type
+            if (orderData.cakeType) {
+                elements.cakeType.value = orderData.cakeType;
+            }
+
+            // Fill cake filling
+            if (orderData.cakeFilling) {
+                elements.cakeFilling.value = orderData.cakeFilling;
+            }
+
+            // Fill icing type
+            if (orderData.icingType) {
+                document.querySelector(`input[name="icingType"][value="${orderData.icingType}"]`).checked = true;
+            }
+
+            // Fill cake size/tiers
+            if (orderData.isMultiTier) {
+                document.querySelector('[data-tier="multi"]').click();
+                if (orderData.tiers) {
+                    orderData.tiers.forEach((tierSize, index) => {
+                        if (elements.tierSelectors[index]) {
+                            for (let option of elements.tierSelectors[index].options) {
+                                if (option.text.includes(tierSize)) {
+                                    elements.tierSelectors[index].value = option.value;
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                }
+            } else if (orderData.cakeSize) {
+                document.querySelector('[data-tier="single"]').click();
+                document.querySelector(`input[name="cakeSize"][value="${orderData.cakeSize}"]`).checked = true;
+            }
+
+            // Fill features
+            if (orderData.features) {
+                orderData.features.forEach(feature => {
+                    const checkbox = document.getElementById(`feature-${feature}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+
+            // Fill topper
+            if (orderData.topper) {
+                document.getElementById(`topper-${orderData.topper}`).checked = true;
+            }
+
+            // Set base price if available
+            if (orderData.price) {
+                state.baseCakePrice = orderData.price;
+            }
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function initializeEventListeners() {
+            // Tier toggle
+            elements.tierToggle.addEventListener('click', handleTierToggle);
+
+            // Form element changes
+            elements.cakeType.addEventListener('change', updateOrderSummary);
+            elements.cakeFilling.addEventListener('change', updateOrderSummary);
+            elements.mpesaCode.addEventListener('input', updateOrderSummary);
+            elements.customName.addEventListener('input', updateOrderSummary);
+            elements.customerName.addEventListener('input', updateOrderSummary);
+            elements.deliveryDate.addEventListener('change', updateOrderSummary);
+
+            // Radio and checkbox groups
+            elements.cakeSize.forEach(radio => radio.addEventListener('change', updateOrderSummary));
+            elements.icingType.forEach(radio => radio.addEventListener('change', updateOrderSummary));
+            elements.dietary.forEach(cb => cb.addEventListener('change', updateOrderSummary));
+            elements.features.forEach(cb => cb.addEventListener('change', updateOrderSummary));
+            elements.urgency.forEach(radio => radio.addEventListener('change', updateOrderSummary));
+            elements.topper.forEach(radio => radio.addEventListener('change', handleTopperChange));
+
+            // Tier selectors
+            elements.tierSelectors.forEach(selector => {
+                selector.addEventListener('change', updateOrderSummary);
+            });
+
+            // M-Pesa verification
+            elements.verifyCodeBtn.addEventListener('click', verifyMpesaCode);
+
+            // Image upload
+            elements.uploadButton.addEventListener('click', () => elements.customImageInput.click());
+            elements.customImageInput.addEventListener('change', handleImageUpload);
+            elements.removeImageBtn.addEventListener('click', removeUploadedImage);
+
+            // Clear gallery selection
+            elements.clearSelectionBtn.addEventListener('click', clearGallerySelection);
+
+            // Form submission
+            elements.form.addEventListener('submit', submitOrderForm);
+        }
+
+        function handleTierToggle(e) {
+            if (e.target.classList.contains('toggle-option')) {
+                document.querySelectorAll('.toggle-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                e.target.classList.add('active');
+
+                state.isMultiTier = e.target.dataset.tier === 'multi';
+
+                if (state.isMultiTier) {
+                    elements.singleTierDetails.classList.remove('active');
+                    elements.multiTierDetails.classList.add('active');
+                    elements.summaryCakeStyle.textContent = 'Multi-Tier';
+                } else {
+                    elements.multiTierDetails.classList.remove('active');
+                    elements.singleTierDetails.classList.add('active');
+                    elements.summaryCakeStyle.textContent = 'Single Tier';
+                }
+
+                updateOrderSummary();
+            }
+        }
+
+        function handleTopperChange(e) {
+            if (e.target.value === 'custom-name') {
+                elements.customNameField.style.display = 'block';
+            } else {
+                elements.customNameField.style.display = 'none';
+            }
+            updateOrderSummary();
+        }
+
+        function verifyMpesaCode() {
+            const code = elements.mpesaCode.value.trim();
+
+            if (!code) {
+                alert('Please enter your M-Pesa transaction code');
+                return;
+            }
+
+            if (code.length === 10 && /^[A-Z0-9]+$/.test(code)) {
+                state.mpesaCodeVerified = true;
+                alert('✓ M-Pesa code verified successfully!');
+                elements.verifyCodeBtn.innerHTML = '<i class="fas fa-check"></i> Verified';
+                elements.verifyCodeBtn.style.backgroundColor = '#00a900';
+                updateOrderSummary();
+            } else {
+                alert('Please enter a valid 10-character M-Pesa transaction code');
+            }
+        }
+
+        function handleImageUpload(e) {
+            if (e.target.files.length === 0) return;
+
+            const file = e.target.files[0];
+
+            // Validate file size
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size too large. Please upload an image smaller than 5MB.');
+                return;
+            }
+
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a JPG, PNG, GIF, WebP, or PDF file.');
+                return;
+            }
+
+            state.uploadedImageUrl = URL.createObjectURL(file);
+
+            // Display image
+            if (file.type === 'application/pdf') {
+                elements.uploadedImage.src = 'https://cdn-icons-png.flaticon.com/512/337/337946.png';
+            } else {
+                elements.uploadedImage.src = state.uploadedImageUrl;
+            }
+
+            elements.uploadedFileName.textContent = file.name;
+            elements.uploadedImageContainer.style.display = 'block';
+            state.hasCustomDesign = true;
+            elements.designPreview.style.display = 'block';
+
+            updateOrderSummary();
+        }
+
+        function removeUploadedImage() {
+            if (state.uploadedImageUrl) URL.revokeObjectURL(state.uploadedImageUrl);
+            elements.uploadedImageContainer.style.display = 'none';
+            elements.customImageInput.value = '';
+            state.hasCustomDesign = false;
+            elements.designPreview.style.display = 'none';
+            updateOrderSummary();
+        }
+
+        function clearGallerySelection() {
+            localStorage.removeItem('selectedCakeOrder');
+            state.fromGallery = false;
+            state.baseCakePrice = 0;
+            elements.autoFillBanner.classList.remove('visible');
+            location.reload();
+        }
+
+        // ============================================
+        // ORDER SUMMARY CALCULATIONS
+        // ============================================
+        function calculateMultiTierPrice() {
+            let total = 0;
+            const selectedTiers = [];
+
+            elements.tierSelectors.forEach(selector => {
+                if (selector.value !== 'none') {
+                    total += config.prices.tiers[selector.value];
+                    selectedTiers.push(selector.options[selector.selectedIndex].text.split(' - ')[0]);
+                }
+            });
+
+            return {
+                total,
+                description: selectedTiers.length > 0 ? selectedTiers.join(' + ') : 'No tiers selected'
+            };
+        }
+
+        function updateOrderSummary() {
+            updateCakeType();
+            updateCakeFilling();
+            updateCakeSize();
+            updateIcingType();
+            updateDietary();
+            updateFeatures();
+            updateUrgency();
+            updateTopper();
+            updateMpesaCode();
+            updateDeliveryDate();
+            updateCustomerName();
+            updateGallerySelection();
+            updateWhatsAppLink();
+
+            calculateTotalPrice();
+        }
+
+        function updateCakeType() {
+            if (elements.cakeType.value) {
+                const cakeTypeText = elements.cakeType.options[elements.cakeType.selectedIndex].text;
+                elements.summaryCakeType.textContent = cakeTypeText;
+
+                // Update preview if not from gallery
+                if (!state.fromGallery && config.cakeImages[elements.cakeType.value]) {
+                    elements.cakePreview.innerHTML = `<img src="${config.cakeImages[elements.cakeType.value]}" alt="${cakeTypeText}">`;
+                    if (state.hasCustomDesign) {
+                        elements.designPreview.style.display = 'block';
+                    }
+                }
+            } else {
+                elements.summaryCakeType.textContent = 'Not selected';
+                if (!state.fromGallery) {
+                    elements.cakePreview.innerHTML = '<i class="fas fa-birthday-cake" style="font-size: 80px; color: #f0d9b5;"></i>';
+                    if (state.hasCustomDesign) {
+                        elements.designPreview.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function updateCakeFilling() {
+            if (elements.cakeFilling.value) {
+                elements.summaryFilling.textContent = elements.cakeFilling.options[elements.cakeFilling.selectedIndex].text;
+            } else {
+                elements.summaryFilling.textContent = 'Not selected';
+            }
+        }
+
+        function updateCakeSize() {
+            let sizePrice = state.baseCakePrice;
+            let description = 'Not selected';
+
+            if (state.isMultiTier) {
+                const tierResult = calculateMultiTierPrice();
+                sizePrice = state.baseCakePrice || tierResult.total;
+                description = state.fromGallery ? `From Gallery: ${tierResult.description}` : tierResult.description;
+            } else {
+                elements.cakeSize.forEach(radio => {
+                    if (radio.checked) {
+                        sizePrice = state.baseCakePrice || config.prices.size[radio.value];
+                        description = `${radio.nextElementSibling.textContent.split(' - ')[0]}`;
+                        if (!state.fromGallery) {
+                            description += ` (KSh ${config.prices.size[radio.value].toLocaleString()})`;
+                        }
+                    }
+                });
+            }
+
+            elements.summarySize.textContent = description;
+            state.baseCakePrice = sizePrice;
+        }
+
+        function updateIcingType() {
+            let selectedIcing = '';
+            elements.icingType.forEach(radio => {
+                if (radio.checked) {
+                    selectedIcing = radio.value;
+                    elements.summaryIcing.textContent = radio.nextElementSibling.textContent;
+                }
+            });
+            if (!selectedIcing) elements.summaryIcing.textContent = 'Not selected';
+        }
+
+        function updateDietary() {
+            const selectedDietary = [];
+            elements.dietary.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedDietary.push(checkbox.nextElementSibling.textContent.split(' (+')[0]);
+                }
+            });
+            elements.summaryDietary.textContent = selectedDietary.length > 0 ? selectedDietary.join(', ') : 'None';
+        }
+
+        function updateFeatures() {
+            const selectedFeatures = [];
+            elements.features.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedFeatures.push(checkbox.nextElementSibling.textContent.split(' (+')[0]);
+                }
+            });
+            elements.summaryFeatures.textContent = selectedFeatures.length > 0 ? selectedFeatures.join(', ') : 'None';
+        }
+
+        function updateUrgency() {
+            let selectedUrgency = 'standard';
+            const warningBox = document.getElementById('urgencyWarning');
+            const warningText = document.getElementById('warningText');
+
+            elements.urgency.forEach(radio => {
+                if (radio.checked) {
+                    selectedUrgency = radio.value;
+                    elements.summaryUrgency.textContent = radio.nextElementSibling.textContent.split(' - ')[0];
+
+                    if (selectedUrgency === 'express') {
+                        warningBox.style.display = 'block';
+                        warningText.textContent = 'Express orders require phone confirmation. We will call you within 30 minutes.';
+                    } else if (selectedUrgency === 'same-day') {
+                        warningBox.style.display = 'block';
+                        warningText.textContent = 'Same-day orders subject to availability. We will call you immediately to confirm.';
+                    } else {
+                        warningBox.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function updateTopper() {
+            let selectedTopper = 'none';
+            elements.topper.forEach(radio => {
+                if (radio.checked) {
+                    selectedTopper = radio.value;
+                    if (selectedTopper === 'none') {
+                        elements.summaryTopper.textContent = 'No topper';
+                    } else if (selectedTopper === 'standard') {
+                        elements.summaryTopper.textContent = 'Standard "Happy Birthday"';
+                    } else if (selectedTopper === 'custom-name') {
+                        elements.summaryTopper.textContent = elements.customName.value
+                            ? `Custom: "${elements.customName.value}"`
+                            : 'Custom name topper';
+                    } else if (selectedTopper === 'figure') {
+                        elements.summaryTopper.textContent = 'Figure topper';
+                    }
+                }
+            });
+        }
+
+        function updateMpesaCode() {
+            if (elements.mpesaCode.value) {
+                elements.summaryMpesaCode.textContent = state.mpesaCodeVerified
+                    ? `${elements.mpesaCode.value} (Verified)`
+                    : `${elements.mpesaCode.value} (Pending)`;
+            } else {
+                elements.summaryMpesaCode.textContent = 'Not provided';
+            }
+        }
+
+        function updateDeliveryDate() {
+            if (elements.deliveryDate.value) {
+                const date = new Date(elements.deliveryDate.value);
+                const formattedDate = date.toLocaleDateString('en-KE', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                elements.summaryDate.textContent = formattedDate;
+
+                // Check if enough notice for multi-tier
+                const deliveryDate = new Date(elements.deliveryDate.value);
+                const today = new Date();
+                const hoursDiff = (deliveryDate.getTime() - today.getTime()) / (1000 * 3600);
+
+                if (hoursDiff < 48 && state.isMultiTier) {
+                    elements.summaryDate.innerHTML = `${formattedDate} <span style="color: #ff5252;">(48h notice!)</span>`;
+                }
+            } else {
+                elements.summaryDate.textContent = 'Not selected';
+            }
+        }
+
+        function updateCustomerName() {
+            elements.summaryName.textContent = elements.customerName.value || 'Not provided';
+        }
+
+        function updateGallerySelection() {
+            elements.summaryGallerySelection.textContent = state.fromGallery ? 'Yes (From Gallery)' : 'No';
+        }
+
+        function updateWhatsAppLink() {
+            if (elements.customerName.value) {
+                const message = `Hi ${config.whatsappConfig.businessName}, I need help with my cake order. My name is ${elements.customerName.value}`;
+                const encodedMessage = encodeURIComponent(message);
+                elements.whatsappHelpBtn.href = `https://wa.me/${config.whatsappConfig.bakeryNumber}?text=${encodedMessage}`;
+            }
+        }
+
+        function calculateTotalPrice() {
+            // Calculate base price
+            let basePrice = state.baseCakePrice;
+
+            // Add features price
+            let featuresPrice = 0;
+            elements.features.forEach(checkbox => {
+                if (checkbox.checked) {
+                    featuresPrice += config.prices.features[checkbox.value] || 0;
+                }
+            });
+
+            // Add dietary price
+            let dietaryPrice = 0;
+            elements.dietary.forEach(checkbox => {
+                if (checkbox.checked) {
+                    dietaryPrice += config.prices.dietary[checkbox.value] || 0;
+                }
+            });
+
+            // Add topper price
+            let topperPrice = 0;
+            elements.topper.forEach(radio => {
+                if (radio.checked) {
+                    topperPrice = config.prices.topper[radio.value] || 0;
+                }
+            });
+
+            // Add urgency surcharge
+            let urgencySurcharge = 0;
+            let selectedUrgency = 'standard';
+            elements.urgency.forEach(radio => {
+                if (radio.checked) {
+                    selectedUrgency = radio.value;
+                }
+            });
+
+            // Calculate final price
+            basePrice = basePrice + featuresPrice + dietaryPrice + topperPrice;
+            urgencySurcharge = basePrice * config.prices.urgency[selectedUrgency];
+            const totalPrice = basePrice + urgencySurcharge;
+
+            // Update display
+            elements.totalPrice.textContent = `KSh ${totalPrice.toLocaleString()}`;
+            if (urgencySurcharge > 0) {
+                elements.totalPrice.innerHTML = `KSh ${totalPrice.toLocaleString()} <small style="color: #f44336;">(+${(config.prices.urgency[selectedUrgency] * 100).toFixed(0)}% urgency)</small>`;
+            }
+        }
+
+        // ============================================
+        // ORDER SUBMISSION
+        // ============================================
+        function submitOrderForm(e) {
+            e.preventDefault();
+
+            if (!validateForm()) return;
+
+            const orderData = prepareOrderData();
+            state.orderId = generateOrderId();
+
+            // Send to WhatsApp
+            const message = formatWhatsAppMessage(orderData);
+
+            // Send to customer if opted in
+            if (elements.whatsappConfirm.checked) {
+                sendToWhatsApp(message, orderData.phone);
+                updateWhatsAppNotification();
+            }
+
+            // Always send to bakery
+            sendToWhatsApp(message);
+
+            // Show success message
+            showSuccessMessage(orderData);
+
+            // Clear gallery selection
+            localStorage.removeItem('selectedCakeOrder');
+        }
+
+        function validateForm() {
+            // Basic validations
+            if (!elements.customerName.value || !elements.customerPhone.value) {
+                alert('Please fill in your name and phone number');
+                return false;
+            }
+
+            if (!elements.cakeType.value || !elements.cakeFilling.value) {
+                alert('Please select cake type and filling');
+                return false;
+            }
+
+            // Validate size/tiers
+            let sizeSelected = false;
+            if (state.isMultiTier) {
+                const hasTiers = Array.from(elements.tierSelectors).some(selector => selector.value !== 'none');
+                if (!hasTiers) {
+                    alert('Please select at least one tier for your multi-tier cake');
+                    return false;
+                }
+                sizeSelected = true;
+            } else {
+                elements.cakeSize.forEach(radio => {
+                    if (radio.checked) sizeSelected = true;
+                });
+            }
+
+            if (!sizeSelected) {
+                alert('Please select cake size/tiers');
+                return false;
+            }
+
+            // Validate custom name topper
+            const selectedTopper = document.querySelector('input[name="topper"]:checked').value;
+            if (selectedTopper === 'custom-name' && !elements.customName.value.trim()) {
+                alert('Please enter custom text for your name topper');
+                return false;
+            }
+
+            if (selectedTopper === 'custom-name' && elements.customName.value.length > 30) {
+                alert('Custom topper text cannot exceed 30 characters');
+                return false;
+            }
+
+            // Validate WhatsApp consent
+            if (!elements.whatsappConfirm.checked) {
+                if (!confirm('WhatsApp confirmation is recommended for instant order details. Are you sure you want to proceed without WhatsApp?')) {
+                    return false;
+                }
+            }
+
+            // Validate terms
+            if (!document.getElementById('terms-agree').checked || !document.getElementById('deposit-agree').checked) {
+                alert('Please agree to the terms and conditions');
+                return false;
+            }
+
+            return true;
+        }
+
+        function prepareOrderData() {
+            return {
+                name: elements.customerName.value,
+                phone: elements.customerPhone.value,
+                email: document.getElementById('customerEmail').value || '',
+                cakeType: elements.cakeType.options[elements.cakeType.selectedIndex].text,
+                filling: elements.cakeFilling.options[elements.cakeFilling.selectedIndex].text,
+                size: elements.summarySize.textContent,
+                icing: elements.summaryIcing.textContent,
+                dietary: elements.summaryDietary.textContent,
+                features: elements.summaryFeatures.textContent,
+                urgency: elements.summaryUrgency.textContent,
+                topper: elements.summaryTopper.textContent,
+                hasCustomDesign: state.hasCustomDesign,
+                fromGallery: state.fromGallery,
+                mpesaCode: elements.mpesaCode.value || '',
+                mpesaVerified: state.mpesaCodeVerified,
+                deliveryDate: elements.summaryDate.textContent,
+                deliveryAddress: document.getElementById('deliveryAddress').value || 'Bakery Pickup',
+                specialInstructions: document.getElementById('specialInstructions').value || 'None',
+                totalPrice: elements.totalPrice.textContent,
+                wantsWhatsAppUpdates: elements.whatsappUpdates.checked,
+                orderId: state.orderId
+            };
+        }
+
+        function generateOrderId() {
+            const date = new Date();
+            const year = date.getFullYear().toString().slice(-2);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const random = Math.floor(1000 + Math.random() * 9000);
+            return `BF${year}${month}${day}${random}`;
+        }
+
+        function formatWhatsAppMessage(orderData) {
+            const today = new Date().toLocaleDateString('en-KE', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            return `🎂 *${config.whatsappConfig.businessName.toUpperCase()} - ORDER CONFIRMATION* 🎂
+
+📋 *ORDER DETAILS*
+Order ID: ${orderData.orderId}
+Order Date: ${today}
+Customer: ${orderData.name}
+Phone: ${orderData.phone}
+${orderData.email ? `Email: ${orderData.email}` : ''}
+
+🍰 *CAKE SPECIFICATIONS*
+• Cake Type: ${orderData.cakeType}
+• Filling: ${orderData.filling}
+• Size/Tiers: ${orderData.size}
+• Icing: ${orderData.icing}
+• Topper: ${orderData.topper}
+• Urgency: ${orderData.urgency}
+• Dietary: ${orderData.dietary}
+
+✨ *ADDITIONAL FEATURES*
+${orderData.features}
+
+💰 *PAYMENT INFORMATION*
+Total Amount: ${orderData.totalPrice}
+M-Pesa Status: ${orderData.mpesaVerified ? '✅ VERIFIED' : '⏳ PENDING VERIFICATION'}
+${orderData.mpesaCode ? `Transaction Code: ${orderData.mpesaCode}` : ''}
+
+🚚 *DELIVERY DETAILS*
+Date: ${orderData.deliveryDate}
+${orderData.deliveryAddress ? `Address: ${orderData.deliveryAddress}` : '📍 Collection: Bakery Pickup'}
+
+📝 *SPECIAL INSTRUCTIONS*
+${orderData.specialInstructions}
+
+${orderData.fromGallery ? '📸 *Selected from Gallery*' : ''}
+${orderData.hasCustomDesign ? '📸 *Custom design reference image uploaded*' : ''}
+
+---
+📞 *NEXT STEPS:*
+1. We will call you within 2 hours to confirm all details
+2. ${orderData.urgency.includes('Express') || orderData.urgency.includes('Same Day') ? 'EXPECT A CALL WITHIN 30 MINUTES' : 'Standard processing time applies'}
+3. For urgent queries, call: 0712 345 678
+
+📍 *LOCATION*
+${config.whatsappConfig.location}
+
+*Thank you for choosing ${config.whatsappConfig.businessName}!* 🌟
+_We bake with love for every celebration_`;
+        }
+
+        function sendToWhatsApp(message, phoneNumber = null) {
+            let targetNumber = config.whatsappConfig.bakeryNumber;
+
+            if (phoneNumber) {
+                let cleanNumber = phoneNumber.replace(/\D/g, '');
+
+                if (cleanNumber.startsWith('0')) {
+                    cleanNumber = '254' + cleanNumber.substring(1);
+                } else if (cleanNumber.startsWith('+254')) {
+                    cleanNumber = cleanNumber.substring(1);
+                } else if (!cleanNumber.startsWith('254')) {
+                    cleanNumber = '254' + cleanNumber;
+                }
+
+                if (cleanNumber.length === 12 && cleanNumber.startsWith('2547')) {
+                    targetNumber = cleanNumber;
+                }
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/${targetNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappURL, '_blank');
+            return whatsappURL;
+        }
+
+        function updateWhatsAppNotification() {
+            hggggggggggggghhhhhhhhhhhhhhhhhhhhhhhhhhhh
+            if (elements.whatsappNotification) {
+                elements.whatsappNotification.innerHTML = '✅';
+                elements.whatsappNotification.style.backgroundColor = '#25D366';
+                setTimeout(() => {
+                    elements.whatsappNotification.innerHTML = '💬';
+                    elements.whatsappNotification.style.backgroundColor = '#ff5252';
+                }, 5000);
+            }
+        }
+
+        function showSuccessMessage(orderData) {
+            let message = `🎉 THANK YOU, ${orderData.name.toUpperCase()}!\n\n`;
+            message += `✅ Order #${orderData.orderId} received successfully!\n`;
+            message += `💰 Total: ${orderData.totalPrice}\n\n`;
+
+            if (elements.whatsappConfirm.checked) {
+                message += `📱 Order summary sent to your WhatsApp\n`;
+                message += `📞 We will call you within ${orderData.urgency.includes('Express') || orderData.urgency.includes('Same Day') ? '30 minutes' : '2 hours'} to confirm\n\n`;
+                message += `👉 Please check your WhatsApp messages now`;
+            } else {
+                message += `📞 We will call you within ${orderData.urgency.includes('Express') || orderData.urgency.includes('Same Day') ? '30 minutes' : '2 hours'} to confirm`;
+            }
+
+            if (orderData.wantsWhatsAppUpdates) {
+                message += `\n\n📸 You'll receive cake progress photos on WhatsApp`;
+            }
+
+            alert(message);
+        }
+
+        function showWelcomeMessage() {
+            if (!localStorage.getItem('bakeryWelcomeShown')) {
+                setTimeout(() => {
+                    alert(`Welcome to ${config.whatsappConfig.businessName}! 🎂\n\nNeed help? Click the WhatsApp button in the bottom right corner anytime!\n\nWe're here to make your cake ordering experience sweet and easy.`);
+                    localStorage.setItem('bakeryWelcomeShown', 'true');
+                }, 1000);
+            }
+        }
+    </script>
+    <script src="/order-client.js"></script>
+</body>
+
+</html>
