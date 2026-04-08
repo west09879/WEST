@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | BeFo Bakers</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#FFF9F0 0%,#F9E6D8 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .error-container{text-align:center;max-width:600px}
+    .error-code{font-size:120px;font-weight:700;background:linear-gradient(135deg,#D4AF37,#C17B4B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+    .error-title{font-size:24px;color:#2C1810;margin:20px 0}
+    .error-message{color:#666;margin-bottom:30px}
+    .home-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#D4AF37,#C17B4B);color:white;padding:12px 30px;border-radius:30px;text-decoration:none;font-weight:600;transition:all .3s ease}
+    .home-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(193,123,75,.3)}
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page Not Found</h1>
+    <p class="error-message">The page you are looking for doesn't exist or has been moved.</p>
+    <a href="/" class="home-btn"><i class="fas fa-home"></i> Back to Home</a>
+  </div>
+</body>
+</html>

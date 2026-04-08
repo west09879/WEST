@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — Artisan Bakery</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary:#C17B4B;
+      --primary-dark:#8B4513;
+      --gold:#D4AF37;
+      --cream:#FFF9F0;
+      --vanilla:#F3E5D8;
+      --choc:#2C1810;
+      --text-light:#777;
+      --shadow:0 10px 30px rgba(139,69,19,.1);
+      --shadow-md:0 20px 40px rgba(139,69,19,.15);
+      --transition:all .4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      --grad-gold:linear-gradient(135deg, #D4AF37 0%, #C17B4B 100%);
+      --grad-warm:linear-gradient(135deg, #FFF9F0 0%, #F9E6D8 100%);
+    }
+    body{font-family:'Poppins',sans-serif;background:var(--grad-warm);color:var(--choc);overflow-x:hidden}
+    .float-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    .float-item{position:absolute;font-size:60px;opacity:.03;animation:float 20s infinite linear}
+    @keyframes float{
+      0%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-50px) rotate(10deg)}
+      100%{transform:translateY(0) rotate(0deg)}
+    }
+    header{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);position:fixed;top:0;left:0;width:100%;z-index:1000;padding:12px 0;transition:var(--transition)}
+    .container{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+    .header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-icon{width:48px;height:48px;background:var(--grad-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;transition:var(--transition)}
+    .logo:hover .logo-icon{transform:scale(1.1) rotate(5deg)}
+    .logo h1{font-family:'Playfair Display',serif;font-size:26px;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .logo span{font-family:'Dancing Script',cursive;font-size:13px;color:var(--primary);display:block;margin-top:-4px}
+    .nav-links{display:flex;gap:28px;align-items:center}
+    .nav-links a{text-decoration:none;color:var(--choc);font-weight:500;transition:var(--transition);position:relative;font-size:15px}
+    .nav-links a:hover,.nav-links a.active{color:var(--primary)}
+    .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--grad-gold);transition:var(--transition)}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .mobile-menu-btn{display:none;background:none;border:none;font-size:24px;color:var(--primary);cursor:pointer}
+    .hero{min-height:85vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:100px 20px 60px}
+    .hero-content{max-width:800px;margin:0 auto;position:relative;z-index:2}
+    .hero-badge{display:inline-block;background:rgba(193,123,75,.15);color:var(--primary);padding:8px 20px;border-radius:50px;font-size:14px;font-weight:500;margin-bottom:24px;backdrop-filter:blur(10px)}
+    .hero h1{font-size:4rem;font-family:'Playfair Display',serif;margin-bottom:20px;line-height:1.2}
+    .hero h1 span{background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:1.1rem;color:var(--text-light);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto}
+    .hero-buttons{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:50px;font-weight:600;text-decoration:none;transition:var(--transition);font-size:15px}
+    .btn-primary{background:var(--grad-gold);color:white;box-shadow:0 10px 25px rgba(193,123,75,.3)}
+    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 35px rgba(193,123,75,.4)}
+    .btn-outline{border:2px solid var(--primary);color:var(--primary);background:transparent}
+    .btn-outline:hover{background:var(--primary);color:white;transform:translateY(-3px)}
+    .stats-section{padding:40px 0;background:white;margin-top:-40px;position:relative;z-index:10;border-radius:30px 30px 0 0}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;text-align:center}
+    .stat-item h3{font-size:2.5rem;font-weight:700;color:var(--primary);margin-bottom:8px}
+    .stat-item p{color:var(--text-light);font-size:14px;text-transform:uppercase;letter-spacing:1px}
+    .section{padding:80px 0}
+    .section-header{text-align:center;margin-bottom:50px}
+    .section-header h2{font-size:2.5rem;font-family:'Playfair Display',serif;margin-bottom:15px}
+    .section-header p{color:var(--text-light);max-width:600px;margin:0 auto}
+    .categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px}
+    .category-card{background:white;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);transition:var(--transition);text-decoration:none;color:inherit;display:block}
+    .category-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-md)}
+    .category-img{height:200px;overflow:hidden}
+    .category-img img{width:100%;height:100%;object-fit:cover;transition:var(--transition)}
+    .category-card:hover .category-img img{transform:scale(1.05)}
+    .category-info{padding:24px;text-align:center}
+    .category-info h3{font-size:1.3rem;margin-bottom:8px}
+    .category-info p{color:var(--text-light);font-size:14px}
+    .category-info i{color:var(--primary);margin-top:12px;display:inline-block}
+    .featured-products{background:white}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+    .product-card{background:var(--cream);border-radius:20px;overflow:hidden;transition:var(--transition);position:relative}
+    .product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
+    .product-badge{position:absolute;top:15px;left:15px;background:var(--gold);color:var(--choc);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;z-index:2}
+    .product-img{height:220px;overflow:hidden}
+    .product-img img{width:100%;height:100%;object-fit:cover;transition:var(--transition)}
+    .product-card:hover .product-img img{transform:scale(1.05)}
+    .product-info{padding:20px}
+    .product-info h3{font-size:1.1rem;margin-bottom:8px}
+    .product-price{color:var(--primary);font-weight:700;font-size:1.2rem;margin:10px 0}
+    .product-order{background:transparent;border:2px solid var(--primary);color:var(--primary);padding:8px 20px;border-radius:30px;cursor:pointer;font-weight:600;transition:var(--transition);width:100%}
+    .product-order:hover{background:var(--primary);color:white}
+    .testimonials{background:var(--grad-warm)}
+    .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px}
+    .testimonial-card{background:white;padding:30px;border-radius:20px;box-shadow:var(--shadow)}
+    .testimonial-stars{color:var(--gold);margin-bottom:15px}
+    .testimonial-text{font-style:italic;margin-bottom:20px;color:var(--text-light);line-height:1.7}
+    .testimonial-author{display:flex;align-items:center;gap:12px}
+    .testimonial-author img{width:50px;height:50px;border-radius:50%;object-fit:cover}
+    .testimonial-author h4{font-size:1rem;margin-bottom:2px}
+    .testimonial-author p{font-size:12px;color:var(--text-light)}
+    .cta-section{background:linear-gradient(135deg, var(--primary-dark), var(--primary));border-radius:30px;margin:0 20px 80px;padding:60px 40px;text-align:center;color:white}
+    .cta-section h2{font-size:2.2rem;margin-bottom:15px}
+    .cta-section p{margin-bottom:30px;opacity:.9}
+    .cta-btn{background:white;color:var(--primary);padding:14px 35px;border-radius:50px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:var(--transition)}
+    .cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,0,0,.2)}
+    footer{background:var(--choc);color:white;padding:60px 0 30px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:40px}
+    .footer-column h4{font-size:1.2rem;margin-bottom:20px;color:var(--gold)}
+    .footer-column p,.footer-column a{color:rgba(255,255,255,.7);margin-bottom:12px;display:block;text-decoration:none;transition:var(--transition)}
+    .footer-column a:hover{color:var(--gold);padding-left:5px}
+    .social-icons{display:flex;gap:15px;margin-top:20px}
+    .social-icons a{width:40px;height:40px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .social-icons a:hover{background:var(--gold);color:var(--choc);padding-left:0}
+    .copyright{text-align:center;padding-top:30px;border-top:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.6)}
+    .whatsapp-float{position:fixed;bottom:30px;right:30px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 5px 20px rgba(37,211,102,.4);transition:var(--transition);z-index:100;text-decoration:none}
+    .whatsapp-float:hover{transform:scale(1.1);background:#128C7E}
+    @media(max-width:768px){
+      .mobile-menu-btn{display:block}
+      .nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:white;flex-direction:column;padding:20px;box-shadow:var(--shadow);gap:15px}
+      .nav-links.active{display:flex}
+      .hero h1{font-size:2.5rem}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .section{padding:50px 0}
+      .cta-section{padding:40px 20px}
+      .cta-section h2{font-size:1.8rem}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:2rem}
+      .stats-grid{grid-template-columns:1fr}
+      .hero-buttons{flex-direction:column;align-items:center}
+      .btn{width:100%;justify-content:center}
+    }
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="float-bg">
+    <div class="float-item" style="top:10%;left:5%;animation-duration:25s">🍰</div>
+    <div class="float-item" style="top:70%;right:8%;animation-duration:30s">🧁</div>
+    <div class="float-item" style="bottom:15%;left:15%;animation-duration:20s">🎂</div>
+    <div class="float-item" style="top:40%;right:20%;animation-duration:35s">🍪</div>
+  </div>
+
+  <header>
+    <div class="container header-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><i class="fas fa-crown"></i></div>
+        <div>
+          <h1>BeFo Bakers</h1>
+          <span>Artisan Bakery</span>
+        </div>
+      </a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="gallary.html">Gallery</a>
+        <a href="order.html">Order</a>
+        <a href="customer-login.html" id="navAccount"><i class="fas fa-user"></i> Account</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-star"></i> Kenya's Finest Artisan Bakery
+        </div>
+        <h1>Handcrafted Cakes <span>Made with Love</span></h1>
+        <p>Freshly baked cakes for weddings, birthdays, and every special moment. Made with premium ingredients and Kenyan passion.</p>
+        <div class="hero-buttons">
+          <a href="order.html" class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Order Now</a>
+          <a href="gallary.html" class="btn btn-outline"><i class="fas fa-images"></i> View Gallery</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item"><h3>2010</h3><p>Established</p></div>
+          <div class="stat-item"><h3>10K+</h3><p>Happy Customers</p></div>
+          <div class="stat-item"><h3>50+</h3><p>Cake Designs</p></div>
+          <div class="stat-item"><h3>24h</h3><p>Fresh Delivery</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Our Cake Collections</h2>
+          <p>Discover our signature cake collections, crafted for life's sweetest moments</p>
+        </div>
+        <div class="categories-grid">
+          <a href="gallary.html#wedding" class="category-card">
+            <div class="category-img"><img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&h=300&fit=crop" alt="Wedding Cakes"></div>
+            <div class="category-info"><h3>Wedding Cakes</h3><p>Elegant & timeless designs</p><i class="fas fa-arrow-right"></i></div>
+          </a>
+          <a href="gallary.html#birthday" class="category-card">
+            <div class="category-img"><img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&h=300&fit=crop" alt="Birthday Cakes"></div>
+            <div class="category-info"><h3>Birthday Cakes</h3><p>Fun & creative themes</p><i class="fas fa-arrow-right"></i></div>
+          </a>
+          <a href="gallary.html#cultural" class="category-card">
+            <div class="category-img"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" alt="Cultural Events"></div>
+            <div class="category-info"><h3>Cultural Events</h3><p>Traditional Kenyan designs</p><i class="fas fa-arrow-right"></i></div>
+          </a>
+          <a href="gallary.html#other" class="category-card">
+            <div class="category-img"><img src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?w=400&h=300&fit=crop" alt="Special Events"></div>
+            <div class="category-info"><h3>Special Events</h3><p>Anniversaries & corporate</p><i class="fas fa-arrow-right"></i></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-products">
+      <div class="container">
+        <div class="section-header">
+          <h2>Popular This Week</h2>
+          <p>Our customers' favorite cakes, freshly baked daily</p>
+        </div>
+        <div class="products-grid" id="featuredProducts"></div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2>What Our Customers Say</h2>
+          <p>Loved by hundreds across Kenya</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="testimonial-text">"Absolutely the best cake I've ever had! The wedding cake was beautiful and delicious. Highly recommend BeFo Bakers!"</p>
+            <div class="testimonial-author"><img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Customer"><div><h4>Mary Wanjiku</h4><p>Wedding Customer</p></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="testimonial-text">"Ordered a birthday cake for my daughter's 5th birthday. The unicorn design was perfect and delivery was on time!"</p>
+            <div class="testimonial-author"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Customer"><div><h4>James Otieno</h4><p>Birthday Order</p></div></div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="testimonial-text">"The Maasai-inspired cake for our cultural event was stunning. Everyone asked where we got it from!"</p>
+            <div class="testimonial-author"><img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Customer"><div><h4>Grace Muthoni</h4><p>Cultural Event</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="cta-section">
+        <h2>Ready to Order Your Dream Cake?</h2>
+        <p>Customize your cake, choose your flavors, and we'll deliver it fresh to your door</p>
+        <a href="order.html" class="cta-btn"><i class="fas fa-edit"></i> Start Your Order</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>BeFo Bakers</h4>
+          <p>Freshly baked cakes and pastries made with love in Kenya since 2010. Custom cakes for weddings, birthdays, and all celebrations.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Contact Info</h4>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Bakery Street, Nairobi</p>
+          <p><i class="fas fa-phone"></i> +254 727 205 660</p>
+          <p><i class="fas fa-envelope"></i> info@befobakers.com</p>
+          <p><i class="fas fa-clock"></i> Mon–Sat: 8am–7pm, Sun: 9am–5pm</p>
+        </div>
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="gallary.html">Gallery</a>
+          <a href="order.html">Order Cake</a>
+          <a href="customer-login.html">My Account</a>
+        </div>
+        <div class="footer-column">
+          <h4>Payment Methods</h4>
+          <p><i class="fas fa-mobile-alt"></i> M-Pesa</p>
+          <p><i class="fab fa-cc-visa"></i> Visa / Mastercard</p>
+          <p><i class="fas fa-university"></i> Bank Transfer</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2024 BeFo Bakers. All rights reserved. Made with <i class="fas fa-heart" style="color:#e74c3c"></i> in Kenya.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/254727205660?text=Hi%20BeFo%20Bakers%2C%20I%20need%20help%20with%20a%20cake%20order" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

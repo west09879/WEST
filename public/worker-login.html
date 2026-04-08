@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — Worker Login</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#0d2137 0%,#1a4060 50%,#0d2137 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{background:rgba(255,255,255,.97);border-radius:24px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);animation:appear .7s ease}
+    @keyframes appear{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+    .top{background:linear-gradient(135deg,#0d2137,#1a4060);padding:40px;text-align:center;color:white}
+    .badge{width:76px;height:76px;background:linear-gradient(135deg,#D4A76A,#8B4513);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    .top h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:4px}
+    .top p{opacity:.8;font-size:.9rem}
+    .worker-info{background:rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;margin-top:16px;font-size:.82rem;display:flex;align-items:center;gap:10px}
+    .worker-info i{font-size:18px}
+    .body{padding:36px}
+    .fg{margin-bottom:20px}
+    .fg label{display:block;margin-bottom:7px;font-weight:600;color:#0d2137;font-size:.88rem;text-transform:uppercase;letter-spacing:.5px}
+    .iw{position:relative}
+    .iw i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#D4A76A;font-size:16px}
+    .fg input{width:100%;padding:14px 14px 14px 44px;border:2px solid rgba(13,33,55,.12);border-radius:12px;font-size:.97rem;font-family:'Poppins',sans-serif;transition:.3s;color:#0d2137;background:#f7fbff}
+    .fg input:focus{outline:none;border-color:#1a4060;box-shadow:0 0 0 4px rgba(13,33,55,.08)}
+    .btn{width:100%;padding:15px;background:linear-gradient(135deg,#0d2137,#1a4060);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;transition:.3s;text-transform:uppercase;letter-spacing:1px;font-family:'Poppins',sans-serif;margin-top:8px}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(13,33,55,.35)}
+    .btn.loading{color:transparent;pointer-events:none}
+    .btn.loading::after{content:'';position:absolute;width:22px;height:22px;top:50%;left:50%;margin:-11px 0 0 -11px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:white;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .msg{margin-bottom:16px}
+    .alert{padding:12px 16px;border-radius:10px;font-size:.9rem;display:flex;align-items:center;gap:10px}
+    .alert-error{background:#fee;color:#c0392b;border-left:4px solid #c0392b}
+    .footer-note{text-align:center;margin-top:20px;font-size:.8rem;color:#aaa}
+    .footer-note a{color:#1a4060;text-decoration:none}
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top"><div class="badge"><i class="fas fa-hard-hat"></i></div><h2>Worker Portal</h2><p>BeFo Bakers — Production Team</p><div class="worker-info"><i class="fas fa-info-circle"></i><span>Enter your worker credentials to access the order queue.</span></div></div>
+    <div class="body">
+      <div class="msg" id="msg"></div>
+      <form id="workerForm">
+        <div class="fg"><label>Username</label><div class="iw"><i class="fas fa-user-cog"></i><input type="text" id="username" placeholder="worker username" required autocomplete="username"></div></div>
+        <div class="fg"><label>Password</label><div class="iw"><i class="fas fa-lock"></i><input type="password" id="password" placeholder="••••••••" required autocomplete="current-password"></div></div>
+        <button type="submit" class="btn" id="submit-btn"><i class="fas fa-sign-in-alt"></i> Access Order Queue</button>
+      </form>
+      <p class="footer-note"><a href="customer-login.html"><i class="fas fa-arrow-left"></i> Customer Login</a></p>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/worker-login.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

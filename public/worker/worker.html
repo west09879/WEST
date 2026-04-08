@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — Worker Dashboard</title>
+  <base href="../">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#0d1b2a;--surface:#132238;--border:#1f3a52;--primary:#D4A76A;--text:#dde6f0;--muted:#7a95ae;--success:#2ecc71;--warn:#f39c12;--danger:#e74c3c;--ready:#1abc9c;--grad:linear-gradient(135deg,#D4A76A,#8B4513);}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .logo{font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:10px}
+    .logo i{color:var(--primary)}
+    .worker-chip{background:rgba(212,167,106,.15);border:1px solid rgba(212,167,106,.3);color:var(--primary);padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:600}
+    .logout-btn{background:none;border:1px solid rgba(231,76,60,.3);color:#e74c3c;padding:7px 14px;border-radius:8px;cursor:pointer}
+    .page{max-width:1100px;margin:0 auto;padding:24px 20px}
+    .tabs{display:flex;gap:4px;margin-bottom:22px;background:var(--surface);border-radius:12px;padding:5px;width:fit-content}
+    .tab{padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:500;color:var(--muted)}
+    .tab.active{background:var(--grad);color:white}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:22px}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+    .stat .num{font-size:1.6rem;font-weight:700;color:var(--primary)}
+    .stat .lbl{font-size:.75rem;color:var(--muted)}
+    .orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+    .order-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .order-card:hover{border-color:var(--primary)}
+    .card-top{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+    .order-id{font-weight:700}
+    .badge{padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:uppercase}
+    .b-pending{background:rgba(243,156,18,.15);color:var(--warn)}
+    .b-confirmed{background:rgba(52,152,219,.15);color:#3498db}
+    .b-preparing{background:rgba(155,89,182,.15);color:#9b59b6}
+    .b-ready{background:rgba(26,188,156,.15);color:var(--ready)}
+    .b-delivered{background:rgba(46,204,113,.15);color:var(--success)}
+    .card-body{padding:14px 16px}
+    .order-items{list-style:none;margin-bottom:10px}
+    .order-items li{padding:4px 0;border-bottom:1px dashed var(--border);font-size:.84rem;display:flex;justify-content:space-between}
+    .order-total{font-weight:700;font-size:.95rem;color:var(--primary);padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+    .order-meta{font-size:.76rem;color:var(--muted);margin-top:8px;display:flex;flex-direction:column;gap:3px}
+    .assigned-badge{display:inline-block;margin-top:6px;background:rgba(212,167,106,.12);border:1px solid rgba(212,167,106,.25);color:var(--primary);padding:3px 10px;border-radius:20px;font-size:.75rem}
+    .card-foot{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;border:none}
+    .btn-primary{background:var(--grad);color:white}
+    .btn-ghost{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid var(--border)}
+    .btn-ready{background:rgba(26,188,156,.15);color:var(--ready);border:1px solid rgba(26,188,156,.3)}
+    .empty{text-align:center;padding:50px 20px;color:var(--muted)}
+    .empty i{font-size:44px;margin-bottom:14px;display:block;opacity:.4}
+    .toast-container{position:fixed;bottom:20px;right:20px;z-index:999;display:flex;flex-direction:column;gap:8px}
+    .spin{animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:600px){.orders-grid{grid-template-columns:1fr}}
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header><div class="logo"><i class="fas fa-hard-hat"></i> Worker Portal</div><div><span class="worker-chip" id="workerChip"><i class="fas fa-user-cog"></i> Loading…</span><button class="logout-btn" id="logoutBtn" style="margin-left:12px"><i class="fas fa-sign-out-alt"></i> Sign Out</button></div></header>
+  <div class="page">
+    <div class="stats"><div class="stat"><div class="num" id="stat-queue">—</div><div class="lbl">Queue</div></div><div class="stat"><div class="num" id="stat-mine">—</div><div class="lbl">My Orders</div></div><div class="stat"><div class="num" id="stat-ready">—</div><div class="lbl">Ready</div></div><div class="stat"><div class="num" id="stat-done">—</div><div class="lbl">Delivered Today</div></div></div>
+    <div class="tabs" id="tabs"><div class="tab active" data-tab="queue">Available Queue</div><div class="tab" data-tab="mine">My Orders</div><div class="tab" data-tab="all">All Orders</div></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px"><h2 id="secTitle" style="font-size:1rem;color:var(--muted)"><i class="fas fa-list"></i> Available Queue</h2><button class="btn btn-ghost" id="refreshBtn" style="padding:6px 12px"><i class="fas fa-sync-alt" id="refreshIcon"></i> Refresh</button></div>
+    <div id="ordersContainer"><div class="empty"><i class="fas fa-spinner spin"></i>Loading orders…</div></div>
+  </div>
+  <div class="toast-container" id="toasts"></div>
+
+  <script src="/js/api.js"></script>
+<script src="/js/common.js"></script>
+<script src="/worker/worker.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

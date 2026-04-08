@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — My Orders</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary:#C17B4B;--primary-dark:#8B4513;--gold:#D4AF37;
+      --cream:#FFF9F0;--choc:#2C1810;--text-light:#777;
+      --shadow:0 5px 15px rgba(0,0,0,.08);
+      --grad-gold:linear-gradient(135deg,#D4AF37 0%,#C17B4B 100%);
+    }
+    body{font-family:'Poppins',sans-serif;background:#F9EFE5;min-height:100vh;color:var(--choc)}
+    header{background:white;box-shadow:var(--shadow);padding:12px 0;position:sticky;top:0;z-index:100}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    .header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-icon{width:44px;height:44px;background:var(--grad-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:20px}
+    .logo h1{font-family:'Playfair Display',serif;font-size:24px;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo span{font-family:'Dancing Script',cursive;font-size:13px;color:var(--primary);display:block}
+    nav{display:flex;gap:20px;align-items:center}
+    nav a{color:var(--choc);text-decoration:none;font-weight:500;font-size:14px;transition:.3s}
+    nav a:hover{color:var(--primary)}
+    .logout-btn{background:none;border:2px solid #e74c3c;color:#e74c3c;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+    .logout-btn:hover{background:#e74c3c;color:white}
+    .page{padding:30px 20px}
+    .welcome-bar{background:var(--grad-gold);color:white;border-radius:20px;padding:28px 32px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+    .welcome-bar h2{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:4px}
+    .welcome-bar .cta{background:white;color:var(--primary-dark);text-decoration:none;padding:10px 24px;border-radius:30px;font-weight:600;font-size:.9rem}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:28px}
+    .stat{background:white;border-radius:14px;padding:18px;text-align:center;box-shadow:var(--shadow)}
+    .stat .num{font-size:1.8rem;font-weight:700;color:var(--primary);margin-bottom:4px}
+    .stat .lbl{font-size:.75rem;color:#888;text-transform:uppercase}
+    .sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+    .sec-hdr h3{font-size:1.2rem;display:flex;align-items:center;gap:8px}
+    .filter-tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{background:white;border:2px solid #e0e0e0;border-radius:30px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:.3s}
+    .tab.active{background:var(--grad-gold);color:white;border-color:transparent}
+    .orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+    .order-card{background:white;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;transition:.3s}
+    .order-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(139,69,19,.12)}
+    .card-header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f0ede9}
+    .order-id{font-weight:700;font-size:.9rem}
+    .status{padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+    .s-pending{background:#fff3cd;color:#856404}
+    .s-confirmed{background:#d1ecf1;color:#0c5460}
+    .s-preparing{background:#d4edda;color:#155724}
+    .s-ready{background:#cce5ff;color:#004085}
+    .s-delivered{background:#d1f2eb;color:#0b6342}
+    .s-cancelled{background:#f8d7da;color:#721c24}
+    .card-body{padding:14px 18px}
+    .order-items{list-style:none;margin-bottom:10px}
+    .order-items li{padding:5px 0;border-bottom:1px dashed #f0ede9;font-size:.85rem;display:flex;justify-content:space-between}
+    .order-total{display:flex;justify-content:space-between;font-weight:700;padding-top:10px;border-top:2px solid #f0ede9;color:var(--primary)}
+    .order-date{font-size:.7rem;color:#aaa;margin-top:8px}
+    .card-footer{padding:10px 18px;border-top:1px solid #f0ede9;display:flex;justify-content:flex-end}
+    .cancel-btn{background:none;border:2px solid #e74c3c;color:#e74c3c;padding:5px 14px;border-radius:20px;cursor:pointer;font-size:.75rem;font-weight:600}
+    .empty{text-align:center;padding:60px 20px;color:#aaa;background:white;border-radius:16px}
+    .empty i{font-size:48px;margin-bottom:16px;color:#ddd}
+    .skeleton{animation:shimmer 1.5s infinite;background:linear-gradient(90deg,#f0ede9 25%,#e8e4e0 50%,#f0ede9 75%);background-size:400% 100%;border-radius:6px}
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    footer{background:var(--choc);color:white;padding:40px 0 20px;margin-top:40px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px}
+    .footer-column h4{font-size:1.1rem;margin-bottom:15px;color:var(--gold)}
+    .footer-column p,.footer-column a{color:rgba(255,255,255,.7);margin-bottom:8px;display:block;text-decoration:none}
+    .copyright{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:13px}
+    @media(max-width:640px){
+      .header-content{flex-direction:column;text-align:center}
+      .welcome-bar{flex-direction:column;text-align:center}
+      .orders-grid{grid-template-columns:1fr}
+    }
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-crown"></i></div>
+        <div><h1>BeFo Bakers</h1><span>Artisan Bakery</span></div>
+      </a>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="gallary.html">Gallery</a>
+            <a href="order.html">Order</a>
+            <a href="customer-account.html">Account</a>
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+          </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="container">
+      <div class="welcome-bar">
+        <div><h2 id="welcome-name">Welcome back!</h2><p>Here's a summary of your orders with BeFo Bakers.</p></div>
+        <a href="/order.html" class="cta"><i class="fas fa-plus"></i> Place New Order</a>
+      </div>
+
+      <div class="stats" id="stats">
+        <div class="stat"><div class="num skeleton" style="height:32px;width:60%;margin:0 auto">&nbsp;</div><div class="lbl">Total Orders</div></div>
+        <div class="stat"><div class="num skeleton" style="height:32px;width:60%;margin:0 auto">&nbsp;</div><div class="lbl">Pending</div></div>
+        <div class="stat"><div class="num skeleton" style="height:32px;width:60%;margin:0 auto">&nbsp;</div><div class="lbl">Delivered</div></div>
+        <div class="stat"><div class="num skeleton" style="height:32px;width:60%;margin:0 auto">&nbsp;</div><div class="lbl">Total Spent</div></div>
+      </div>
+
+      <div class="sec-hdr">
+        <h3><i class="fas fa-receipt"></i> My Orders</h3>
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="tab active" data-status="all">All</button>
+          <button class="tab" data-status="pending">Pending</button>
+          <button class="tab" data-status="preparing">Preparing</button>
+          <button class="tab" data-status="ready">Ready</button>
+          <button class="tab" data-status="delivered">Delivered</button>
+          <button class="tab" data-status="cancelled">Cancelled</button>
+        </div>
+      </div>
+
+      <div id="orders-container">
+        <div class="orders-grid">
+          <div class="order-card"><div class="card-header"><div class="skeleton" style="height:18px;width:100px"></div><div class="skeleton" style="height:18px;width:60px"></div></div><div class="card-body"><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:20px;margin-top:12px"></div></div></div>
+          <div class="order-card"><div class="card-header"><div class="skeleton" style="height:18px;width:100px"></div><div class="skeleton" style="height:18px;width:60px"></div></div><div class="card-body"><div class="skeleton" style="height:40px"></div><div class="skeleton" style="height:20px;margin-top:12px"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column"><h4>BeFo Bakers</h4><p>Freshly baked cakes made with love in Kenya.</p></div>
+        <div class="footer-column"><h4>Contact</h4><p><i class="fas fa-phone"></i> +254 727205660</p><p><i class="fas fa-envelope"></i> info@befobakers.com</p></div>
+        <div class="footer-column"><h4>Quick Links</h4>
+           <a href="index.html">Home</a>
+           <a href="gallary.html">Gallery</a>
+           <a href="order.html">Order</a></div>
+      </div>
+      <div class="copyright"><p>&copy; 2024 BeFo Bakers. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/customer-dashboard.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

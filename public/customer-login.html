@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — Login / Register</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --primary:#C17B4B;
+      --primary-dark:#8B4513;
+      --gold:#D4AF37;
+      --cream:#FFF9F0;
+      --choc:#2C1810;
+      --shadow:0 10px 30px rgba(139,69,19,.1);
+      --grad-gold:linear-gradient(135deg, #D4AF37 0%, #C17B4B 100%);
+      --grad-warm:linear-gradient(135deg, #FFF9F0 0%, #F9E6D8 100%);
+    }
+    body{font-family:'Poppins',sans-serif;background:var(--grad-warm);min-height:100vh}
+    header{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);box-shadow:var(--shadow);position:sticky;top:0;z-index:100;padding:12px 0}
+    .container{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+    .header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-icon{width:48px;height:48px;background:var(--grad-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px}
+    .logo h1{font-family:'Playfair Display',serif;font-size:26px;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo span{font-family:'Dancing Script',cursive;font-size:13px;color:var(--primary);display:block}
+    nav{display:flex;gap:25px}
+    nav a{text-decoration:none;color:var(--choc);font-weight:500;transition:.3s}
+    nav a:hover{color:var(--primary)}
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+    .wrapper{max-width:480px;width:100%}
+    .auth-card{background:rgba(255,255,255,.97);border-radius:30px;box-shadow:var(--shadow);overflow:hidden}
+    .card-top{background:var(--grad-gold);padding:40px 40px 24px;text-align:center;color:white;padding-bottom:50px}
+    .card-top i{font-size:46px;background:rgba(255,255,255,.18);width:76px;height:76px;line-height:76px;border-radius:50%;display:inline-block;border:3px solid rgba(255,255,255,.3);margin-bottom:12px}
+    .card-top h2{font-family:'Playfair Display',serif;font-size:2.4rem;margin-bottom:6px}
+    .card-top p{opacity:.88;font-size:.95rem}
+    .card-body{padding:10px 40px 40px}
+    .fg{margin-bottom:22px}
+    .fg label{display:block;margin-bottom:7px;font-weight:500;color:var(--choc);font-size:.92rem}
+    .input-wrap{position:relative}
+    .input-wrap i.ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--primary);font-size:17px}
+    .fg input{width:100%;padding:14px 14px 14px 46px;border:2px solid rgba(193,123,75,.12);border-radius:14px;font-size:1rem;font-family:'Poppins',sans-serif;background:rgba(255,255,255,.9);transition:.3s}
+    .fg input:focus{outline:none;border-color:var(--primary);box-shadow:0 5px 20px rgba(193,123,75,.15)}
+    .btn{width:100%;padding:15px;background:var(--grad-gold);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:600;cursor:pointer;transition:.3s;margin-top:16px}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(193,123,75,.4)}
+    .btn.loading{color:transparent;pointer-events:none;position:relative}
+    .btn.loading::after{content:'';position:absolute;width:22px;height:22px;top:50%;left:50%;margin:-11px 0 0 -11px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:white;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .toggle{text-align:center;margin-top:22px;padding-top:22px;border-top:2px dashed rgba(193,123,75,.2)}
+    .toggle p{color:#888;font-size:.9rem}
+    .toggle a{color:var(--primary);text-decoration:none;font-weight:600}
+    .msg{margin-bottom:18px}
+    .alert{padding:14px 18px;border-radius:12px;font-size:.92rem;display:flex;align-items:center;gap:10px}
+    .alert-error{background:#fee;color:#e74c3c;border-left:4px solid #e74c3c}
+    .alert-success{background:#e8f5e9;color:#27ae60;border-left:4px solid #27ae60}
+    .alert-warn{background:#fff8e1;color:#f39c12;border-left:4px solid #f39c12}
+    .forgot{text-align:right;margin-top:4px}
+    .forgot a{color:var(--primary);font-size:12px;text-decoration:none}
+    .pw-bar{height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-top:7px}
+    .pw-fill{height:100%;width:0;transition:.3s}
+    .pw-txt{font-size:11px;margin-top:4px;color:#888}
+    .cbx{display:flex;align-items:center;gap:10px;margin:14px 0}
+    .cbx input{width:17px;height:17px;accent-color:var(--primary)}
+    .cbx label{font-size:13px;color:var(--choc)}
+    .otp-overlay{display:none;position:fixed;inset:0;background:rgba(44,24,16,.5);z-index:500;align-items:center;justify-content:center;padding:20px}
+    .otp-overlay.show{display:flex}
+    .otp-box{background:white;border-radius:24px;max-width:400px;width:100%;overflow:hidden}
+    .otp-head{background:var(--grad-gold);padding:30px;text-align:center;color:white}
+    .otp-head i{font-size:40px;margin-bottom:10px}
+    .otp-head h3{font-family:'Playfair Display',serif;font-size:1.6rem}
+    .otp-body{padding:28px}
+    .otp-inputs{display:flex;gap:10px;justify-content:center;margin:20px 0}
+    .otp-inputs input{width:48px;height:58px;text-align:center;font-size:22px;font-weight:600;border:2px solid rgba(193,123,75,.3);border-radius:12px}
+    .timer{text-align:center;color:var(--primary);font-weight:600;margin-bottom:14px}
+    footer{background:var(--choc);color:white;padding:40px 0 20px;margin-top:40px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px}
+    .footer-column h4{font-size:1.2rem;margin-bottom:20px;color:var(--gold)}
+    .footer-column p,.footer-column a{color:rgba(255,255,255,.7);margin-bottom:10px;display:block;text-decoration:none}
+    .copyright{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+    @media(max-width:600px){
+      .header-content{flex-direction:column;text-align:center}
+      .card-body{padding:10px 22px 30px}
+      .otp-inputs input{width:42px;height:52px}
+    }
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon"><i class="fas fa-crown"></i></div>
+        <div><h1>BeFo Bakers</h1><span>Artisan Bakery</span></div>
+      </a>
+          <nav>
+            <a href="index.html">Home</a>
+            <a href="gallary.html">Gallery</a>
+            <a href="order.html">Order</a>
+            <a href="customer-login.html" class="active">Account</a>
+          </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrapper">
+      <div id="login-card">
+        <div class="auth-card">
+          <div class="card-top">
+            <i class="fas fa-cake-candles"></i>
+            <h2>Welcome Back</h2>
+            <p>Sign in to continue</p>
+          </div>
+          <div class="card-body">
+            <div class="msg" id="login-msg"></div>
+            <form id="loginForm">
+              <div class="fg">
+                <label>Email Address</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-envelope"></i>
+                  <input type="email" id="l-email" placeholder="your@email.com" required>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Password</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-lock"></i>
+                  <input type="password" id="l-pass" placeholder="••••••••" required>
+                </div>
+                <div class="forgot"><a href="/reset-password.html">Forgot password?</a></div>
+              </div>
+              <button type="submit" class="btn">Sign In</button>
+            </form>
+            <div class="toggle">
+              <p>New to BeFo Bakers? <a href="#" id="go-register">Create an Account</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="register-card" style="display:none">
+        <div class="auth-card">
+          <div class="card-top">
+            <i class="fas fa-user-plus"></i>
+            <h2>Join Us</h2>
+            <p>Start your cake journey today</p>
+          </div>
+          <div class="card-body">
+            <div class="msg" id="reg-msg"></div>
+            <form id="registerForm">
+              <div class="fg">
+                <label>Full Name</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-user"></i>
+                  <input type="text" id="r-name" placeholder="Jane Doe" required>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Email Address</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-envelope"></i>
+                  <input type="email" id="r-email" placeholder="your@email.com" required>
+                </div>
+              </div>
+              <div class="fg">
+                <label>Phone Number</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-phone"></i>
+                  <input type="tel" id="r-phone" placeholder="+254 712 345 678">
+                </div>
+              </div>
+              <div class="fg">
+                <label>Password</label>
+                <div class="input-wrap">
+                  <i class="ico fas fa-lock"></i>
+                  <input type="password" id="r-pass" placeholder="Create a strong password" required>
+                </div>
+                <div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div>
+                <div class="pw-txt" id="pw-txt">Min 8 characters</div>
+              </div>
+              <div class="cbx">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the Terms & Conditions</label>
+              </div>
+              <button type="submit" class="btn">Create Account</button>
+            </form>
+            <div class="toggle">
+              <p>Already have an account? <a href="#" id="go-login">Sign In Here</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="otp-overlay" id="otp-overlay">
+    <div class="otp-box">
+      <div class="otp-head">
+        <i class="fas fa-envelope-open-text"></i>
+        <h3>Verify Your Email</h3>
+        <p id="otp-subtitle">We sent a 6-digit code to your email</p>
+      </div>
+      <div class="otp-body">
+        <div class="msg" id="otp-msg"></div>
+        <div class="otp-inputs" id="otp-inputs">
+          <input type="text" maxlength="1" pattern="[0-9]">
+          <input type="text" maxlength="1" pattern="[0-9]">
+          <input type="text" maxlength="1" pattern="[0-9]">
+          <input type="text" maxlength="1" pattern="[0-9]">
+          <input type="text" maxlength="1" pattern="[0-9]">
+          <input type="text" maxlength="1" pattern="[0-9]">
+        </div>
+        <div class="timer" id="otp-timer">Time remaining: 10:00</div>
+        <button class="btn" id="verify-btn">Verify Email</button>
+        <div style="text-align:center;margin-top:16px">
+          Didn't receive it? <a href="#" id="resend-link">Resend code</a>
+        </div>
+        <div style="text-align:center;margin-top:14px">
+          <a href="customer-login.html" id="otp-back-link" style="color:var(--primary);text-decoration:none"><i class="fas fa-arrow-left"></i>Back to login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column"><h4>BeFo Bakers</h4><p>Freshly baked cakes made with love in Kenya.</p></div>
+        <div class="footer-column"><h4>Contact</h4><p><i class="fas fa-phone"></i> +254 727205660</p></div>
+        <div class="footer-column"><h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="gallary.html">Gallery</a>
+          <a href="order.html">Order</a>
+        </div>
+      </div>
+      <div class="copyright"><p>&copy; 2024 BeFo Bakers. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/customer-login.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — Order Your Cake</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary-color:#D4A76A;--secondary-color:#8B4513;--accent-color:#E91E63;
+          --light-color:#FFF9F0;--dark-color:#5D4037;--text-color:#333;--text-light:#777;
+          --shadow:0 5px 15px rgba(0,0,0,.1);--transition:all .3s ease;--border-radius:10px}
+    body{font-family:'Poppins',sans-serif;line-height:1.6;color:var(--text-color);background-color:var(--light-color);padding-top:80px}
+    .container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}
+    header{background-color:white;box-shadow:var(--shadow);position:fixed;top:0;left:0;width:100%;z-index:1000;padding:15px 0}
+    .header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+    .logo{display:flex;align-items:center}
+    .logo i{color:var(--primary-color);font-size:28px;margin-right:10px}
+    .logo h1{font-family:'Dancing Script',cursive;font-size:28px;color:var(--secondary-color)}
+    .logo span{color:var(--accent-color)}
+    .kenya-flag{display:inline-flex;align-items:center;margin-left:10px}
+    .kenya-flag span{display:inline-block;width:15px;height:15px;margin:0 2px;border-radius:50%}
+    .kenya-flag .black{background-color:black}.kenya-flag .red{background-color:#BB0000}
+    .kenya-flag .green{background-color:#006600}.kenya-flag .white{background-color:white;border:1px solid #ddd}
+    nav{display:flex;gap:20px}
+    nav a{text-decoration:none;color:var(--dark-color);font-weight:500;transition:var(--transition);position:relative}
+    nav a:hover,nav a.active{color:var(--primary-color)}
+    nav a.active::after{content:'';position:absolute;bottom:-5px;left:0;width:100%;height:2px;background-color:var(--primary-color)}
+    .contact-info{display:flex;flex-direction:column;align-items:flex-end;font-size:14px}
+    .contact-info i{color:var(--primary-color);margin-right:5px}
+    .auto-fill-banner{background:linear-gradient(135deg,#4CAF50,#8BC34A);color:white;padding:15px 20px;border-radius:8px;margin:20px 0;display:none;align-items:center;justify-content:space-between;animation:slideIn .5s ease}
+    .auto-fill-banner.visible{display:flex}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    .auto-fill-info{display:flex;align-items:center;gap:15px}
+    .auto-fill-info img{width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid white}
+    .clear-selection-btn{background:rgba(255,255,255,.2);border:1px solid white;color:white;padding:8px 15px;border-radius:5px;cursor:pointer;transition:var(--transition);font-size:14px}
+    .clear-selection-btn:hover{background:white;color:#4CAF50}
+    .hero{background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1089&q=80');background-size:cover;background-position:center;color:white;padding:80px 0;text-align:center;border-radius:var(--border-radius);margin-bottom:40px}
+    .hero h2{font-size:2.8rem;margin-bottom:15px;font-family:'Dancing Script',cursive}
+    .hero p{font-size:1.1rem;max-width:700px;margin:0 auto 25px;opacity:.9}
+    .order-container{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:60px}
+    @media(max-width:992px){.order-container{grid-template-columns:1fr}}
+    .order-form-section,.order-summary-section{background-color:white;border-radius:var(--border-radius);padding:30px;box-shadow:var(--shadow)}
+    .order-summary-section{height:fit-content;position:sticky;top:100px}
+    .section-title{display:flex;align-items:center;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid var(--light-color)}
+    .section-title i{background-color:var(--primary-color);color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:15px}
+    .section-title h3{font-size:1.5rem;color:var(--secondary-color)}
+    .form-group{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid #f0f0f0}
+    .form-group:last-of-type{border-bottom:none}
+    .form-group label{display:block;margin-bottom:8px;font-weight:500;color:var(--dark-color)}
+    .form-control{width:100%;padding:12px 15px;border:1px solid #ddd;border-radius:8px;font-family:'Poppins',sans-serif;font-size:16px;transition:var(--transition)}
+    .form-control:focus{outline:none;border-color:var(--primary-color);box-shadow:0 0 0 2px rgba(212,167,106,.2)}
+    .select-wrapper{position:relative}
+    .select-wrapper::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:50%;right:15px;transform:translateY(-50%);color:var(--text-light);pointer-events:none}
+    .radio-group,.checkbox-group{display:flex;flex-wrap:wrap;gap:15px;margin-top:5px}
+    .radio-option,.checkbox-option{display:flex;align-items:center;margin-right:15px}
+    .radio-option input,.checkbox-option input{margin-right:8px}
+    .textarea{min-height:100px;resize:vertical}
+    .toggle-switch{display:flex;align-items:center;margin-bottom:20px;background-color:#f8f8f8;border-radius:50px;padding:5px;width:fit-content}
+    .toggle-option{padding:10px 20px;border-radius:50px;cursor:pointer;transition:var(--transition);font-weight:500}
+    .toggle-option.active{background-color:var(--primary-color);color:white}
+    .tier-details{margin-top:20px;padding:20px;background-color:#f9f9f9;border-radius:var(--border-radius);display:none}
+    .tier-details.active{display:block;animation:fadeIn .3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    .tier-row{display:flex;gap:15px;margin-bottom:15px}
+    .tier-select{flex:1}
+    .image-upload-container{border:2px dashed #ddd;border-radius:10px;padding:25px;text-align:center;background-color:#f9f9f9;margin-top:10px;transition:var(--transition)}
+    .image-upload-container:hover{border-color:var(--primary-color);background-color:#fffbf5}
+    .upload-icon{font-size:48px;color:var(--primary-color);margin-bottom:15px}
+    .upload-text{margin-bottom:15px;color:var(--text-light)}
+    .upload-text strong{color:var(--secondary-color)}
+    .upload-btn{display:inline-block;background-color:var(--primary-color);color:white;padding:10px 20px;border-radius:5px;cursor:pointer;transition:var(--transition);border:none;font-family:'Poppins',sans-serif;font-size:16px}
+    .upload-btn:hover{background-color:var(--secondary-color)}
+    #customImageInput{display:none}
+    .uploaded-image-container{margin-top:20px;display:none}
+    .uploaded-image{max-width:100%;max-height:200px;border-radius:8px;box-shadow:var(--shadow);margin-bottom:10px}
+    .remove-image-btn{background-color:#ff5252;color:white;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;font-size:14px;transition:var(--transition)}
+    .remove-image-btn:hover{background-color:#d32f2f}
+    .file-types{font-size:12px;color:var(--text-light);margin-top:10px}
+    .mpesa-section{background-color:#f0f9f0;border-left:4px solid #00a900;padding:20px;border-radius:8px;margin-top:10px}
+    .mpesa-logo{display:flex;align-items:center;margin-bottom:15px;color:#00a900;font-weight:700;font-size:1.2rem}
+    .mpesa-logo i{margin-right:10px;font-size:1.5rem}
+    .payment-info{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:15px}
+    .payment-detail{flex:1;min-width:200px;background-color:white;padding:15px;border-radius:8px;border:1px solid #ddd}
+    .payment-detail h4{color:var(--secondary-color);margin-bottom:8px;font-size:1rem}
+    .payment-detail p{color:var(--text-color);font-weight:600;font-size:1.1rem}
+    .payment-detail.code{background-color:#fff8e1;border-color:#ffd54f}
+    .transaction-code-input{display:flex;gap:10px;margin-top:10px}
+    .transaction-code-input input{flex:1}
+    .urgency-levels{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .urgency-option{display:flex;align-items:center;padding:12px 15px;border:2px solid #e0e0e0;border-radius:8px;transition:var(--transition);cursor:pointer}
+    .urgency-option:hover{border-color:var(--primary-color);background-color:#fffbf5}
+    .urgency-option input[type=radio]{margin-right:10px}
+    .urgency-option label{cursor:pointer;font-weight:500;flex:1}
+    .urgency-option i{margin-right:8px;width:20px;text-align:center}
+    .urgency-warning{background-color:#fff8e1;border-left-color:#ffc107}
+    .topper-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:10px}
+    .topper-option{display:flex;align-items:center;padding:12px;border:2px solid #e0e0e0;border-radius:8px;transition:var(--transition);cursor:pointer}
+    .topper-option:hover{border-color:var(--primary-color);background-color:#fffbf5}
+    .topper-option input[type=radio]{margin-right:10px}
+    .topper-option label{cursor:pointer;font-weight:500;flex:1}
+    .topper-option i{margin-right:8px;color:var(--primary-color)}
+    .whatsapp-options{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+    .whatsapp-options .checkbox-option{display:flex;align-items:flex-start;padding:15px;border:2px solid #e0e0e0;border-radius:8px;transition:var(--transition);background-color:#f9f9f9}
+    .whatsapp-options .checkbox-option:hover{border-color:#25D366;background-color:#f0fff4}
+    .whatsapp-options .checkbox-option input[type=checkbox]{margin-top:3px;margin-right:12px}
+    .whatsapp-options .checkbox-option label{flex:1;cursor:pointer;font-weight:500}
+    .whatsapp-options .checkbox-option i{color:#25D366;margin-right:8px;font-size:18px}
+    .whatsapp-options .option-note{display:block;font-size:13px;color:var(--text-light);margin-top:5px;font-weight:normal}
+    .whatsapp-info{background-color:#e8f5e9;border-left-color:#25D366;margin-top:15px}
+    .whatsapp-info i{color:#25D366}
+    .terms-section{background-color:#f9f9f9;border-radius:8px;padding:20px;margin-top:20px;border:1px solid #e0e0e0}
+    .terms-header{display:flex;align-items:center;margin-bottom:20px;color:var(--secondary-color)}
+    .terms-header i{background-color:var(--primary-color);color:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:12px}
+    .terms-checkbox{display:flex;align-items:flex-start;margin-bottom:15px;padding:10px;background-color:white;border-radius:6px}
+    .terms-checkbox:last-child{margin-bottom:0}
+    .terms-checkbox input[type=checkbox]{margin-right:12px;margin-top:3px}
+    .terms-checkbox label{flex:1;cursor:pointer;font-weight:500}
+    .cake-preview{text-align:center;margin-bottom:30px}
+    .cake-image{width:100%;height:250px;background-color:#f9f9f9;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:15px;overflow:hidden;position:relative}
+    .cake-image img{max-width:100%;max-height:100%;object-fit:contain}
+    .uploaded-design-preview{position:absolute;bottom:10px;right:10px;background-color:rgba(255,255,255,.9);padding:5px 10px;border-radius:5px;font-size:12px;color:var(--secondary-color);display:none}
+    .cake-details{border-top:1px solid #eee;padding-top:20px}
+    .detail-row{display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #eee}
+    .detail-label{color:var(--text-light)}
+    .detail-value{font-weight:500;color:var(--secondary-color);text-align:right;max-width:60%;word-break:break-word}
+    .price-total{display:flex;justify-content:space-between;font-size:1.4rem;font-weight:700;margin-top:20px;padding-top:20px;border-top:2px solid var(--primary-color)}
+    .total-label{color:var(--dark-color)}.total-value{color:var(--accent-color)}
+    .order-button{display:block;width:100%;background-color:var(--accent-color);color:white;border:none;padding:18px;font-size:1.1rem;font-weight:600;border-radius:8px;cursor:pointer;transition:var(--transition);margin-top:25px;text-transform:uppercase;letter-spacing:1px}
+    .order-button:hover{background-color:#d81b60;transform:translateY(-3px);box-shadow:0 7px 20px rgba(233,30,99,.3)}
+    .order-button:disabled{opacity:.6;pointer-events:none}
+    .info-box{background-color:#e8f4fc;border-left:4px solid #2196f3;padding:15px;border-radius:5px;margin-top:15px;font-size:14px}
+    .info-box i{color:#2196f3;margin-right:8px}
+    .whatsapp-widget{position:fixed;bottom:25px;right:25px;z-index:1000}
+    .whatsapp-float{display:flex;align-items:center;background-color:#25D366;color:white;padding:14px 22px;border-radius:50px;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,.3);transition:all .3s ease;position:relative}
+    .whatsapp-float:hover{background-color:#128C7E;transform:translateY(-3px) scale(1.05)}
+    .whatsapp-float i{font-size:26px;margin-right:12px}
+    .whatsapp-text{font-weight:600;font-size:15px}
+    .whatsapp-notification{position:absolute;top:-8px;right:-8px;background-color:#ff5252;color:white;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;animation:pulse 2s infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+    footer{background-color:var(--secondary-color);color:white;padding:40px 0 20px;margin-top:40px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px}
+    .footer-column h4{font-size:1.2rem;margin-bottom:20px;color:var(--primary-color)}
+    .footer-column p,.footer-column a{color:rgba(255,255,255,.8);margin-bottom:10px;display:block;text-decoration:none;transition:var(--transition)}
+    .footer-column a:hover{color:var(--primary-color);padding-left:5px}
+    .social-icons{display:flex;gap:15px;margin-top:15px}
+    .social-icons a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background-color:rgba(255,255,255,.1);border-radius:50%;font-size:18px}
+    .social-icons a:hover{background-color:var(--primary-color)}
+    .copyright{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.7)}
+    .required{color:#f44336;margin-left:4px}
+    .logged-in-bar{background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;padding:12px 20px;border-radius:8px;margin:0 0 20px;display:flex;align-items:center;gap:12px;font-size:.9rem}
+    .logged-in-bar i{font-size:20px}
+    .logged-in-bar a{color:rgba(255,255,255,.85);margin-left:auto;text-decoration:none;font-weight:600;font-size:.85rem}
+    .logged-in-bar a:hover{color:white}
+    @media(max-width:768px){
+      body{padding-top:70px}
+      .header-content{flex-direction:column;text-align:center;gap:15px}
+      .contact-info{align-items:center}
+      .hero h2{font-size:2.2rem}
+      .order-form-section,.order-summary-section{padding:20px}
+      .tier-row{flex-direction:column}
+      .whatsapp-float{padding:16px}
+      .whatsapp-text{display:none}
+      .whatsapp-float i{margin-right:0;font-size:30px}
+      .auto-fill-banner{flex-direction:column;gap:15px;text-align:center}
+      .auto-fill-info{flex-direction:column}
+      .topper-options{grid-template-columns:1fr}
+    }
+    @media(max-width:480px){
+      .hero{padding:50px 0}
+      .hero h2{font-size:1.8rem}
+      .toggle-switch{width:100%;justify-content:center}
+      .toggle-option{flex:1;text-align:center;padding:10px}
+    }
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <i class="fas fa-birthday-cake"></i>
+        <h1>BeFo <span>Bakers</span> Bakery</h1>
+        <div class="kenya-flag">
+          <span class="black"></span><span class="red"></span>
+          <span class="green"></span><span class="white"></span>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="gallary.html"><i class="fas fa-images"></i> Gallery</a>
+        <a href="order.html" class="active"><i class="fas fa-shopping-cart"></i> Order</a>
+        <a href="customer-login.html" id="nav-account"><i class="fas fa-user"></i> My Orders</a>
+      </nav>
+      <div class="contact-info">
+        <p><i class="fas fa-phone"></i> Call us: +254 727205660</p>
+        <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="logged-in-bar" id="logged-in-bar" style="display:none">
+      <i class="fas fa-user-check"></i>
+      <span id="logged-in-name">You're logged in</span>
+      <a href="customer-dashboard.html">View my orders</a>
+    </div>
+
+    <div class="auto-fill-banner" id="autoFillBanner">
+      <div class="auto-fill-info">
+        <img id="bannerCakeImage" src="" alt="">
+        <div>
+          <h4 style="margin-bottom:5px"><i class="fas fa-magic"></i> Smart Fill Active!</h4>
+          <p style="font-size:14px;opacity:.9">Your selection from the gallery has been auto-filled below.</p>
+          <p style="font-size:12px;margin-top:5px" id="bannerCakeTitle"></p>
+        </div>
+      </div>
+      <button class="clear-selection-btn" id="clearSelectionBtn"><i class="fas fa-times"></i> Clear</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h2>Custom Cakes for Every Celebration</h2>
+      <p>Order delicious, freshly baked cakes for birthdays, weddings, anniversaries and all your special moments. Delivery available across Kenya.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="order-container">
+      <!-- Order Form -->
+      <section class="order-form-section">
+        <div class="section-title"><i class="fas fa-edit"></i><h3>Customize Your Cake</h3></div>
+        <form id="cakeOrderForm">
+          <div class="form-group">
+            <label for="customerName">Full Name <span class="required">*</span></label>
+            <input type="text" id="customerName" class="form-control" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="customerPhone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="customerPhone" class="form-control" placeholder="e.g. 0712 345 678" required>
+          </div>
+          <div class="form-group">
+            <label for="customerEmail">Email Address</label>
+            <input type="email" id="customerEmail" class="form-control" placeholder="Enter your email">
+          </div>
+          <div class="form-group">
+            <label for="cakeType">Cake Type <span class="required">*</span></label>
+            <div class="select-wrapper">
+              <select id="cakeType" class="form-control" required>
+                <option value="">Select cake type</option>
+                <option value="vanilla">Vanilla Sponge</option>
+                <option value="chocolate">Chocolate Fudge</option>
+                <option value="red-velvet">Red Velvet</option>
+                <option value="carrot">Carrot Cake</option>
+                <option value="fruit">Fruit Cake</option>
+                <option value="cheesecake">Cheesecake</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cakeFilling">Cake Filling <span class="required">*</span></label>
+            <div class="select-wrapper">
+              <select id="cakeFilling" class="form-control" required>
+                <option value="">Select filling</option>
+                <option value="buttercream">Vanilla Buttercream</option>
+                <option value="chocolate-ganache">Chocolate Ganache</option>
+                <option value="salted-caramel">Salted Caramel</option>
+                <option value="strawberry-jam">Strawberry Jam</option>
+                <option value="lemon-curd">Lemon Curd</option>
+                <option value="mixed-berry">Mixed Berry Compote</option>
+                <option value="cream-cheese">Cream Cheese Frosting</option>
+              </select>
+            </div>
+          </div>
+          <!-- Tier Selection -->
+          <div class="form-group">
+            <label>Cake Style <span class="required">*</span></label>
+            <div class="toggle-switch" id="tierToggle">
+              <div class="toggle-option active" data-tier="single">Standard Single Tier</div>
+              <div class="toggle-option" data-tier="multi">Multi-Tier Celebration Cake</div>
+            </div>
+            <div id="singleTierDetails" class="tier-details active">
+              <label>Cake Size <span class="required">*</span></label>
+              <div class="radio-group">
+                <div class="radio-option"><input type="radio" id="size-small" name="cakeSize" value="small" data-price="1500" required><label for="size-small">Small (Serves 8-10) - KSh 1,500</label></div>
+                <div class="radio-option"><input type="radio" id="size-medium" name="cakeSize" value="medium" data-price="2800"><label for="size-medium">Medium (Serves 15-20) - KSh 2,800</label></div>
+                <div class="radio-option"><input type="radio" id="size-large" name="cakeSize" value="large" data-price="4200"><label for="size-large">Large (Serves 25-30) - KSh 4,200</label></div>
+              </div>
+            </div>
+            <div id="multiTierDetails" class="tier-details">
+              <p style="margin-bottom:15px;color:var(--text-light)">Select tiers for your celebration cake:</p>
+              <div class="tier-row">
+                <div class="tier-select"><label for="tier1">Bottom Tier</label><select id="tier1" class="form-control tier-selector" data-tier="1"><option value="none">No tier</option><option value="6-inch">6-inch (Serves 10-12) - KSh 2,500</option><option value="8-inch">8-inch (Serves 20-25) - KSh 3,800</option><option value="10-inch">10-inch (Serves 30-40) - KSh 5,500</option></select></div>
+                <div class="tier-select"><label for="tier2">Middle Tier</label><select id="tier2" class="form-control tier-selector" data-tier="2"><option value="none">No tier</option><option value="6-inch">6-inch - KSh 2,500</option><option value="8-inch">8-inch - KSh 3,800</option><option value="10-inch">10-inch - KSh 5,500</option></select></div>
+              </div>
+              <div class="tier-row">
+                <div class="tier-select"><label for="tier3">Top Tier</label><select id="tier3" class="form-control tier-selector" data-tier="3"><option value="none">No tier</option><option value="4-inch">4-inch - KSh 1,800</option><option value="6-inch">6-inch - KSh 2,500</option><option value="8-inch">8-inch - KSh 3,800</option></select></div>
+                <div class="tier-select"><label for="tier4">Additional Tier</label><select id="tier4" class="form-control tier-selector" data-tier="4"><option value="none">No tier</option><option value="4-inch">4-inch - KSh 1,800</option><option value="6-inch">6-inch - KSh 2,500</option><option value="8-inch">8-inch - KSh 3,800</option></select></div>
+              </div>
+              <div class="info-box"><i class="fas fa-lightbulb"></i><strong>Pro Tip:</strong> Multi-tier cakes require minimum 48 hours notice.</div>
+            </div>
+          </div>
+          <!-- Icing -->
+          <div class="form-group">
+            <label>Icing/Frosting <span class="required">*</span></label>
+            <div class="radio-group">
+              <div class="radio-option"><input type="radio" id="icing-buttercream" name="icingType" value="buttercream" required><label for="icing-buttercream">Buttercream</label></div>
+              <div class="radio-option"><input type="radio" id="icing-fondant" name="icingType" value="fondant"><label for="icing-fondant">Fondant</label></div>
+              <div class="radio-option"><input type="radio" id="icing-ganache" name="icingType" value="ganache"><label for="icing-ganache">Chocolate Ganache</label></div>
+              <div class="radio-option"><input type="radio" id="icing-cream" name="icingType" value="cream"><label for="icing-cream">Fresh Cream</label></div>
+            </div>
+          </div>
+          <!-- Dietary -->
+          <div class="form-group">
+            <label>Dietary Preferences</label>
+            <div class="checkbox-group">
+              <div class="checkbox-option"><input type="checkbox" id="diet-eggless" name="dietary" value="eggless"><label for="diet-eggless">Eggless (+KSh 500)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="diet-glutenfree" name="dietary" value="glutenfree"><label for="diet-glutenfree">Gluten-Free (+KSh 800)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="diet-sugarfree" name="dietary" value="sugarfree"><label for="diet-sugarfree">Sugar-Free (+KSh 600)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="diet-vegan" name="dietary" value="vegan"><label for="diet-vegan">Vegan (+KSh 700)</label></div>
+            </div>
+          </div>
+          <!-- Features -->
+          <div class="form-group">
+            <label>Additional Features</label>
+            <div class="checkbox-group">
+              <div class="checkbox-option"><input type="checkbox" id="feature-flowers" name="features" value="flowers"><label for="feature-flowers">Sugar Flowers (+KSh 500)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="feature-figurines" name="features" value="figurines"><label for="feature-figurines">Custom Figurines (+KSh 800)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="feature-edible-image" name="features" value="edible-image"><label for="feature-edible-image">Edible Image (+KSh 400)</label></div>
+              <div class="checkbox-option"><input type="checkbox" id="feature-sparklers" name="features" value="sparklers"><label for="feature-sparklers">Sparklers (+KSh 300)</label></div>
+            </div>
+          </div>
+          <!-- Topper -->
+          <div class="form-group">
+            <label>Cake Topper Options</label>
+            <div class="topper-options">
+              <div class="topper-option"><input type="radio" id="topper-none" name="topper" value="none" checked><label for="topper-none">No Topper</label></div>
+              <div class="topper-option"><input type="radio" id="topper-standard" name="topper" value="standard"><label for="topper-standard"><i class="fas fa-star"></i> Standard "Happy Birthday" - KSh 300</label></div>
+              <div class="topper-option"><input type="radio" id="topper-custom-name" name="topper" value="custom-name"><label for="topper-custom-name"><i class="fas fa-font"></i> Custom Name Topper - KSh 500</label></div>
+              <div class="topper-option"><input type="radio" id="topper-figure" name="topper" value="figure"><label for="topper-figure"><i class="fas fa-user-friends"></i> Bride & Groom/Figure - KSh 800</label></div>
+            </div>
+            <div id="customNameField" style="display:none;margin-top:15px;padding:15px;background:#f9f9f9;border-radius:8px">
+              <label for="customName" style="display:block;margin-bottom:8px"><i class="fas fa-edit"></i> Enter Custom Text for Topper</label>
+              <input type="text" id="customName" class="form-control" placeholder="e.g., Happy Birthday Mary (max 30 chars)" maxlength="30">
+            </div>
+          </div>
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label>Upload "Inspo" Cake Design</label>
+            <p style="font-size:14px;color:var(--text-light);margin-bottom:8px">Found a design on Pinterest? Upload it here!</p>
+            <div class="image-upload-container" id="imageUploadContainer">
+              <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+              <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+              <p class="file-types">JPG, PNG, GIF (Max 5MB)</p>
+              <button type="button" class="upload-btn" id="uploadButton"><i class="fas fa-file-image"></i> Upload Image</button>
+              <input type="file" id="customImageInput" accept=".jpg,.jpeg,.png,.gif,.webp">
+            </div>
+            <div class="uploaded-image-container" id="uploadedImageContainer">
+              <img src="" alt="Design" class="uploaded-image" id="uploadedImage">
+              <p><strong>Uploaded:</strong> <span id="uploadedFileName"></span></p>
+              <button type="button" class="remove-image-btn" id="removeImageBtn"><i class="fas fa-trash"></i> Remove</button>
+            </div>
+          </div>
+          <!-- M-Pesa -->
+          <div class="form-group">
+            <label>M-Pesa Payment</label>
+            <div class="mpesa-section">
+              <div class="mpesa-logo"><i class="fas fa-mobile-alt"></i><span>M-PESA PAYMENT</span></div>
+              <div class="payment-info">
+                <div class="payment-detail"><h4>Paybill Number</h4><p>247247</p></div>
+                <div class="payment-detail"><h4>Account Number</h4><p>BeFo Bakers</p></div>
+                <div class="payment-detail code"><h4>Transaction Code</h4>
+                  <div class="transaction-code-input">
+                    <input type="text" id="mpesaCode" class="form-control" placeholder="e.g. RF58H9T3P2" maxlength="10">
+                    <button type="button" id="verifyCode" class="upload-btn" style="padding:8px 15px;font-size:14px">Verify</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Delivery Date -->
+          <div class="form-group">
+            <label for="deliveryDate">Preferred Delivery Date <span class="required">*</span></label>
+            <input type="date" id="deliveryDate" class="form-control" required>
+          </div>
+          <!-- Urgency -->
+          <div class="form-group">
+            <label>Order Urgency <span class="required">*</span></label>
+            <div class="urgency-levels">
+              <div class="urgency-option"><input type="radio" id="urgency-standard" name="urgency" value="standard" checked required><label for="urgency-standard"><i class="fas fa-clock"></i> Standard (48+ hours) — No extra charge</label></div>
+              <div class="urgency-option"><input type="radio" id="urgency-express" name="urgency" value="express"><label for="urgency-express"><i class="fas fa-running"></i> Express (24-48 hours) +20% surcharge</label></div>
+              <div class="urgency-option"><input type="radio" id="urgency-same-day" name="urgency" value="same-day"><label for="urgency-same-day"><i class="fas fa-bolt"></i> Same Day (Limited) +50% surcharge</label></div>
+            </div>
+            <div class="info-box urgency-warning" id="urgencyWarning" style="display:none"><i class="fas fa-exclamation-triangle"></i><span id="warningText"></span></div>
+          </div>
+          <!-- Delivery Address -->
+          <div class="form-group">
+            <label for="deliveryAddress">Delivery Address</label>
+            <textarea id="deliveryAddress" class="form-control textarea" placeholder="Enter your full delivery address"></textarea>
+          </div>
+          <!-- Special Instructions -->
+          <div class="form-group">
+            <label for="specialInstructions">Special Instructions</label>
+            <textarea id="specialInstructions" class="form-control textarea" placeholder="Design requests, allergies, delivery notes…"></textarea>
+          </div>
+          <!-- WhatsApp -->
+          <div class="form-group">
+            <label>WhatsApp Updates <span class="required">*</span></label>
+            <div class="whatsapp-options">
+              <div class="checkbox-option"><input type="checkbox" id="whatsapp-confirm" name="whatsapp" value="confirm" checked required><label for="whatsapp-confirm"><i class="fab fa-whatsapp"></i> Send confirmation to my WhatsApp<small class="option-note">(Recommended)</small></label></div>
+              <div class="checkbox-option"><input type="checkbox" id="whatsapp-updates" name="whatsapp-updates" value="updates" checked><label for="whatsapp-updates"><i class="fab fa-whatsapp"></i> Receive progress updates via WhatsApp<small class="option-note">(Photos when we start & finish)</small></label></div>
+            </div>
+            <div class="info-box whatsapp-info"><i class="fas fa-info-circle"></i><strong>Why WhatsApp?</strong> Most Kenyan customers prefer WhatsApp for instant confirmations.</div>
+          </div>
+          <!-- Terms -->
+          <div class="form-group terms-section">
+            <div class="terms-header"><i class="fas fa-file-contract"></i><strong>FINAL CONFIRMATION</strong></div>
+            <div class="terms-checkbox"><input type="checkbox" id="terms-agree" required><label for="terms-agree">I confirm all cake details are correct and agree to the total price</label></div>
+            <div class="terms-checkbox"><input type="checkbox" id="deposit-agree" required><label for="deposit-agree">I understand a 50% deposit may be required for orders over KSh 5,000</label></div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Order Summary -->
+      <section class="order-summary-section">
+        <div class="section-title"><i class="fas fa-receipt"></i><h3>Order Summary</h3></div>
+        <div class="cake-preview">
+          <div class="cake-image" id="cakePreview">
+            <i class="fas fa-birthday-cake" style="font-size:80px;color:#f0d9b5"></i>
+            <div class="uploaded-design-preview" id="designPreview"><i class="fas fa-image"></i> Gallery Selection</div>
+          </div>
+          <p id="cakeSelectionText">Your customized cake preview</p>
+        </div>
+        <div class="cake-details">
+          <div class="detail-row"><span class="detail-label">Cake Type</span><span class="detail-value" id="summaryCakeType">Not selected</span></div>
+          <div class="detail-row"><span class="detail-label">Filling</span><span class="detail-value" id="summaryFilling">Not selected</span></div>
+          <div class="detail-row"><span class="detail-label">Style</span><span class="detail-value" id="summaryCakeStyle">Single Tier</span></div>
+          <div class="detail-row"><span class="detail-label">Size/Tiers</span><span class="detail-value" id="summarySize">Not selected</span></div>
+          <div class="detail-row"><span class="detail-label">Icing</span><span class="detail-value" id="summaryIcing">Not selected</span></div>
+          <div class="detail-row"><span class="detail-label">Dietary</span><span class="detail-value" id="summaryDietary">None</span></div>
+          <div class="detail-row"><span class="detail-label">Features</span><span class="detail-value" id="summaryFeatures">None</span></div>
+          <div class="detail-row"><span class="detail-label">Topper</span><span class="detail-value" id="summaryTopper">No topper</span></div>
+          <div class="detail-row"><span class="detail-label">Urgency</span><span class="detail-value" id="summaryUrgency">Standard</span></div>
+          <div class="detail-row"><span class="detail-label">Delivery Date</span><span class="detail-value" id="summaryDate">Not selected</span></div>
+          <div class="detail-row"><span class="detail-label">Customer</span><span class="detail-value" id="summaryName">Not provided</span></div>
+          <div class="detail-row"><span class="detail-label">M-Pesa Code</span><span class="detail-value" id="summaryMpesaCode">Not provided</span></div>
+        </div>
+        <div class="price-total"><span class="total-label">Total:</span><span class="total-value" id="totalPrice">KSh 0</span></div>
+        <button type="button" class="order-button" id="orderBtn">
+          <i class="fas fa-shopping-cart"></i> Place Order & Pay
+        </button>
+        <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-light)">
+          <i class="fas fa-info-circle"></i> You'll receive a confirmation call within 2 hours
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>BeFo Bakers</h4>
+          <p>Freshly baked cakes and pastries made with love in Kenya. Custom cakes for all occasions.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h4>Contact Info</h4>
+          <p><i class="fas fa-map-marker-alt"></i> 123 Bakery Street, Nairobi</p>
+          <p><i class="fas fa-phone"></i> +254 727205660</p>
+          <p><i class="fas fa-clock"></i> Mon-Sat: 8am-7pm, Sun: 9am-5pm</p>
+        </div>
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="gallary.html">Gallery</a>
+          <a href="order.html">Order Cake</a>
+          <a href="customer-login.html">My Account</a>
+        </div>
+      </div>
+      <div class="copyright"><p>&copy; 2024 BeFo Bakers. All rights reserved. Proudly Kenyan.</p></div>
+    </div>
+  </footer>
+
+  <div class="whatsapp-widget">
+    <a href="https://wa.me/254727205660?text=Hi%20BeFo%20Bakers%2C%20I%20need%20help%20with%20a%20cake%20order"
+       class="whatsapp-float" target="_blank" id="whatsappHelp">
+      <i class="fab fa-whatsapp"></i>
+      <span class="whatsapp-text">Need Help? Chat on WhatsApp</span>
+      <span class="whatsapp-notification" id="whatsappNotification">💬</span>
+    </a>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/order.js"></script>
+  <script src="js/mobile-nav.js"></script>
+</body>
+</html>

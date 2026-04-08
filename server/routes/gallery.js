@@ -1,5 +1,8 @@
 const express = require('express');
 const db = require('../db');
+const validate = require('../middleware/validate');
+const adminAuth = require('../middleware/adminAuth');
+const Joi = require('joi');
 const router = express.Router();
 
 // List gallery items
@@ -24,11 +27,21 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create new gallery item (admin only)
-router.post('/', async (req, res) => {
+const gallerySchema = Joi.object({
+  title: Joi.string().min(1).required(),
+  imageUrl: Joi.string().uri().required(),
+  description: Joi.string().allow('', null),
+  category: Joi.string().allow('','other'),
+  price: Joi.number().min(0).default(0)
+});
+
+router.post('/', adminAuth, validate(gallerySchema), async (req, res) => {
   try {
     const { title, imageUrl, description, category, price } = req.body;
-    if (!title || !imageUrl) return res.status(400).json({ error: 'title and imageUrl required' });
-    const info = await db.run('INSERT INTO gallery (title, imageUrl, description, category, price) VALUES (?, ?, ?, ?, ?)', [title, imageUrl, description || null, category || 'other', price || 0]);
+    const info = await db.run(
+      'INSERT INTO gallery (title, imageUrl, description, category, price) VALUES (?, ?, ?, ?, ?)',
+      [title, imageUrl, description || null, category || 'other', price]
+    );
     const created = await db.get('SELECT * FROM gallery WHERE id = ?', [info.lastID]);
     res.status(201).json(created);
   } catch (e) {

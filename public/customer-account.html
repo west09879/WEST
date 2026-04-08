@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeFo Bakers — My Account</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#C17B4B;--primary-dark:#8B4513;--gold:#D4AF37;--cream:#FFF9F0;--choc:#2C1810;--grad-gold:linear-gradient(135deg,#D4AF37 0%,#C17B4B 100%);--shadow:0 4px 20px rgba(139,69,19,.1)}
+    body{font-family:'Poppins',sans-serif;background:#F9EFE5;min-height:100vh;color:var(--choc)}
+    header{background:white;box-shadow:var(--shadow);padding:12px 0;position:sticky;top:0;z-index:100}
+    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+    .header-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-icon{width:44px;height:44px;background:var(--grad-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:20px}
+    .logo h1{font-family:'Playfair Display',serif;font-size:24px;background:var(--grad-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo span{font-family:'Dancing Script',cursive;font-size:13px;color:var(--primary);display:block}
+    nav{display:flex;gap:20px;align-items:center}
+    nav a{color:var(--choc);text-decoration:none;font-weight:500;font-size:14px}
+    nav a:hover{color:var(--primary)}
+    .logout-btn{background:none;border:2px solid #e74c3c;color:#e74c3c;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+    .page{padding:30px 20px}
+    .profile-header{background:var(--grad-gold);color:white;border-radius:20px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+    .avatar{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;border:3px solid rgba(255,255,255,.4)}
+    .profile-info h2{font-size:1.4rem;margin-bottom:3px}
+    .tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:5px;margin-bottom:22px;box-shadow:var(--shadow)}
+    .tab{flex:1;padding:10px;border-radius:10px;cursor:pointer;font-size:.88rem;font-weight:500;color:#888;text-align:center;transition:.2s}
+    .tab.active{background:var(--grad-gold);color:white}
+    .section{display:none}
+    .section.active{display:block}
+    .card{background:white;border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:20px}
+    .card h3{font-size:1rem;margin-bottom:20px;display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:2px solid #f0ede9}
+    .card h3 i{color:var(--primary)}
+    .fg{margin-bottom:18px}
+    .fg label{display:block;margin-bottom:7px;font-weight:500;font-size:.88rem;color:#666}
+    .iw{position:relative}
+    .iw i.ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--primary);font-size:15px}
+    .fg input{width:100%;padding:13px 13px 13px 44px;border:2px solid rgba(193,123,75,.12);border-radius:12px;font-size:.95rem;font-family:'Poppins',sans-serif}
+    .fg input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px rgba(193,123,75,.1)}
+    .fg input:read-only{background:#fafaf8;color:#999}
+    .pw-bar{height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-top:6px}
+    .pw-fill{height:100%;width:0;transition:.3s}
+    .pw-txt{font-size:11px;margin-top:4px;color:#aaa}
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:12px;cursor:pointer;font-size:.9rem;font-weight:600;border:none;transition:.3s}
+    .btn-primary{background:var(--grad-gold);color:white}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(193,123,75,.35)}
+    .btn-danger{background:rgba(231,76,60,.08);color:#e74c3c;border:2px solid rgba(231,76,60,.2)}
+    .btn-danger:hover{background:#e74c3c;color:white}
+    .alert{padding:12px 16px;border-radius:10px;font-size:.88rem;display:flex;align-items:center;gap:9px;margin-bottom:16px}
+    .alert-error{background:#fee;color:#c0392b;border-left:4px solid #c0392b}
+    .alert-success{background:#e8f5e9;color:#27ae60;border-left:4px solid #27ae60}
+    footer{background:var(--choc);color:white;padding:40px 0 20px;margin-top:40px}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px}
+    .footer-column h4{font-size:1.1rem;margin-bottom:15px;color:var(--gold)}
+    .footer-column p,.footer-column a{color:rgba(255,255,255,.7);margin-bottom:8px;display:block;text-decoration:none}
+    .copyright{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:13px}
+    @media(max-width:600px){.profile-header{flex-direction:column;text-align:center}.tabs{flex-direction:column}}
+    /* Handle broken images gracefully */
+    img {
+      background: #f5f5f5;
+      min-width: 50px;
+      min-height: 50px;
+    }
+    img[src=""], img:not([src]), img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"]) {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    img[src^="http"]:not([src*="images.unsplash"]):not([src*="randomuser"])::after {
+      content: "📷";
+      position: absolute;
+      font-size: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <a href="/" class="logo"><div class="logo-icon"><i class="fas fa-crown"></i></div><div><h1>BeFo Bakers</h1><span>Artisan Bakery</span></div></a>
+      <nav>
+          <a href="index.html">Home</a>
+          <a href="gallary.html">Gallery</a>
+          <a href="order.html">Order</a>
+          <button class="logout-btn" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="container">
+      <div class="profile-header"><div class="avatar" id="avatar">?</div><div class="profile-info"><h2 id="profile-name">Loading…</h2><p id="profile-email">—</p></div></div>
+
+      <div class="tabs"><div class="tab active" data-tab="profile">Profile</div><div class="tab" data-tab="password">Password</div><div class="tab" data-tab="danger">Security</div></div>
+
+      <div class="section active" id="sec-profile"><div class="card"><h3><i class="fas fa-user-edit"></i> Edit Profile</h3><div id="profile-msg"></div><div class="fg"><label>Full Name</label><div class="iw"><i class="ico fas fa-user"></i><input type="text" id="p-name" placeholder="Jane Doe"></div></div><div class="fg"><label>Email Address</label><div class="iw"><i class="ico fas fa-envelope"></i><input type="email" id="p-email" readonly></div><p style="font-size:12px;color:#aaa;margin-top:5px">Email cannot be changed after verification.</p></div><div class="fg"><label>Phone Number</label><div class="iw"><i class="ico fas fa-phone"></i><input type="tel" id="p-phone" placeholder="+254 712 345 678"></div></div><button class="btn btn-primary" id="save-profile-btn"><i class="fas fa-save"></i> Save Changes</button></div></div>
+
+      <div class="section" id="sec-password"><div class="card"><h3><i class="fas fa-lock"></i> Change Password</h3><div id="pw-msg"></div><div class="fg"><label>Current Password</label><div class="iw"><i class="ico fas fa-lock"></i><input type="password" id="pw-current" placeholder="Your current password"></div></div><div class="fg"><label>New Password</label><div class="iw"><i class="ico fas fa-key"></i><input type="password" id="pw-new" placeholder="New password"></div><div class="pw-bar"><div class="pw-fill" id="pw-fill"></div></div><div class="pw-txt" id="pw-txt">Min 8 chars · uppercase · lowercase · number · special char</div></div><div class="fg"><label>Confirm New Password</label><div class="iw"><i class="ico fas fa-key"></i><input type="password" id="pw-confirm" placeholder="Repeat new password"></div></div><button class="btn btn-primary" id="change-pw-btn"><i class="fas fa-check-circle"></i> Update Password</button></div></div>
+
+      <div class="section" id="sec-danger"><div class="card"><h3><i class="fas fa-sign-out-alt"></i> Sessions</h3><p style="margin-bottom:16px;color:#666">Sign out of all devices. You'll need to log in again everywhere.</p><button class="btn btn-danger" id="signout-all-btn"><i class="fas fa-sign-out-alt"></i> Sign Out All Devices</button></div><div class="card"><h3><i class="fas fa-shield-halved"></i> Account Info</h3><div><div><strong>Member since:</strong> <span id="member-since">—</span></div><div><strong>Email verified:</strong> <span id="email-verified">—</span></div></div></div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column"><h4>BeFo Bakers</h4><p>Freshly baked cakes made with love in Kenya.</p></div>
+        <div class="footer-column"><h4>Contact</h4><p><i class="fas fa-phone"></i> +254 727205660</p></div>
+        <div class="footer-column"><h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="gallary.html">Gallery</a>
+          <a href="order.html">Order</a></div>
+      </div>
+      <div class="copyright"><p>&copy; 2024 BeFo Bakers. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/customer-account.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mobile-nav.js"></script>
+
+</body>
+</html>
